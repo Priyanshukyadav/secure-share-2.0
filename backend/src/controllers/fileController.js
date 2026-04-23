@@ -131,16 +131,19 @@ export const downloadFile = async (req, res, next) => {
     const encryptedData = fs.readFileSync(filePath);
 
     // Send file with encryption metadata in headers
-    res.setHeader('Content-Type', 'application/octet-stream');
-    res.setHeader('Content-Disposition', `attachment; filename="${file.originalName}"`);
-    res.setHeader('X-Encryption-IV', file.encryptionIv);
-    res.setHeader('X-Encryption-Auth-Tag', file.encryptionAuthTag);
-    res.setHeader('X-File-Size', file.size);
+    res.set({
+      'Content-Type': 'application/octet-stream',
+      'Content-Disposition': `attachment; filename="${file.originalName}"`,
+      'x-iv': String(file.encryptionIv || ''),
+      'x-auth-tag': String(file.encryptionAuthTag || ''),
+      'x-file-size': String(file.size || 0)
+    });
 
     console.log('✅ File downloaded:', {
       fileId: file._id,
       userId: req.userId,
-      size: file.size
+      size: file.size,
+      iv: file.encryptionIv
     });
 
     res.send(encryptedData);
@@ -385,17 +388,21 @@ export const downloadSharedFile = async (req, res, next) => {
     await file.save();
 
     // Send file with encryption metadata in headers
-    res.setHeader('Content-Type', 'application/octet-stream');
-    res.setHeader('Content-Disposition', `attachment; filename="${file.originalName}"`);
-    res.setHeader('X-Encryption-IV', file.encryptionIv);
-    res.setHeader('X-Encryption-Auth-Tag', file.encryptionAuthTag);
-    res.setHeader('X-Share-Salt', file.shareSalt);
-    res.setHeader('X-File-Size', file.size);
+    res.set({
+      'Content-Type': 'application/octet-stream',
+      'Content-Disposition': `attachment; filename="${file.originalName}"`,
+      'x-iv': String(file.encryptionIv || ''),
+      'x-auth-tag': String(file.encryptionAuthTag || ''),
+      'x-share-salt': String(file.shareSalt || ''),
+      'x-file-size': String(file.size || 0)
+    });
 
     console.log('✅ Shared file downloaded:', {
       fileId: file._id,
       shareToken: req.params.token,
-      size: file.size
+      size: file.size,
+      iv: file.encryptionIv,
+      salt: file.shareSalt
     });
 
     res.send(encryptedData);

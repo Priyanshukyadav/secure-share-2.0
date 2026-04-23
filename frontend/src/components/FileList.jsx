@@ -54,10 +54,23 @@ export default function FileList() {
       // Download encrypted file
       const response = await fileAPI.download(fileId);
       const encryptedData = response.data;
-      const iv = base64ToArrayBuffer(response.headers['x-encryption-iv']);
+
+      // Safe header retrieval with error handling
+      const ivHeader = response.headers['x-iv'];
+      if (!ivHeader) {
+        throw new Error('Missing encryption IV in response header');
+      }
 
       console.log('📥 Downloaded encrypted file');
       console.log('  Size:', encryptedData.byteLength, 'bytes');
+
+      // Safely decode Base64 with error handling
+      let iv;
+      try {
+        iv = base64ToArrayBuffer(ivHeader.trim());
+      } catch (err) {
+        throw new Error(`Failed to decode IV: ${err.message}`);
+      }
 
       // Decrypt file
       console.log('🔓 Decrypting file...');

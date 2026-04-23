@@ -47,11 +47,40 @@ export default function SharedFile() {
       // Download encrypted file
       const response = await fileAPI.downloadSharedFile(token);
       const encryptedData = response.data;
-      const iv = base64ToArrayBuffer(response.headers['x-encryption-iv']);
-      const salt = base64ToArrayBuffer(response.headers['x-share-salt']);
+
+      // Safe header retrieval with error handling
+      const ivHeader = response.headers['x-iv'];
+      const saltHeader = response.headers['x-share-salt'];
+      const authTagHeader = response.headers['x-auth-tag'];
+
+      if (!ivHeader) {
+        throw new Error('Missing encryption IV in response header. Server may not have sent proper headers.');
+      }
+      if (!saltHeader) {
+        throw new Error('Missing salt in response header. Server may not have sent proper headers.');
+      }
 
       console.log('📥 Downloaded encrypted file');
       console.log('  Size:', encryptedData.byteLength, 'bytes');
+      console.log('  Headers:', {
+        iv: ivHeader?.substring(0, 20) + '...',
+        salt: saltHeader?.substring(0, 20) + '...',
+        authTag: authTagHeader?.substring(0, 20) + '...'
+      });
+
+      // Safely decode Base64 with error handling
+      let iv, salt;
+      try {
+        iv = base64ToArrayBuffer(ivHeader.trim());
+      } catch (err) {
+        throw new Error(`Failed to decode IV: ${err.message}. IV value: ${ivHeader?.substring(0, 50)}`);
+      }
+
+      try {
+        salt = base64ToArrayBuffer(saltHeader.trim());
+      } catch (err) {
+        throw new Error(`Failed to decode salt: ${err.message}. Salt value: ${saltHeader?.substring(0, 50)}`);
+      }
 
       // Derive key from password
       console.log('🔑 Deriving key from password...');

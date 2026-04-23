@@ -49,14 +49,31 @@ export function arrayBufferToBase64(data) {
  * Convert base64 string to Uint8Array
  * @param {string} base64 - Base64 encoded string
  * @returns {Uint8Array} Decoded data
+ * @throws {Error} If base64 string is invalid
  */
 export function base64ToArrayBuffer(base64) {
-  const binary = atob(base64);
-  const bytes = new Uint8Array(binary.length);
-  for (let i = 0; i < binary.length; i++) {
-    bytes[i] = binary.charCodeAt(i);
+  if (!base64) {
+    throw new Error('Base64 string is empty or undefined');
   }
-  return bytes;
+
+  // Trim whitespace
+  const trimmed = base64.trim();
+
+  // Validate base64 format (should only contain valid base64 characters and optional padding)
+  if (!/^[A-Za-z0-9+/]*={0,2}$/.test(trimmed)) {
+    throw new Error('Invalid base64 format. Contains invalid characters.');
+  }
+
+  try {
+    const binary = atob(trimmed);
+    const bytes = new Uint8Array(binary.length);
+    for (let i = 0; i < binary.length; i++) {
+      bytes[i] = binary.charCodeAt(i);
+    }
+    return bytes;
+  } catch (error) {
+    throw new Error(`Base64 decoding failed: ${error.message}`);
+  }
 }
 
 /**
