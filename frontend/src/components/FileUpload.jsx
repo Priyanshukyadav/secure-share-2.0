@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import {
   generateAESKey,
   generateIV,
+  generateSalt,
+  deriveKeyFromPassword,
   encryptFile,
   exportKey,
   arrayBufferToBase64
@@ -12,6 +14,9 @@ import '../styles/Components.css';
 
 export default function FileUpload({ onUploadSuccess }) {
   const [file, setFile] = useState(null);
+  const [usePassword, setUsePassword] = useState(false);
+  const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
   const [uploading, setUploading] = useState(false);
   const [error, setError] = useState('');
   const [message, setMessage] = useState('');
@@ -39,16 +44,39 @@ export default function FileUpload({ onUploadSuccess }) {
       return;
     }
 
+    if (usePassword && (!password || !confirmPassword)) {
+      setError('Please enter both password and confirmation');
+      return;
+    }
+
+    if (usePassword && password !== confirmPassword) {
+      setError('Passwords do not match');
+      return;
+    }
+
+    if (usePassword && password.length < 8) {
+      setError('Password must be at least 8 characters');
+      return;
+    }
+
     setError('');
     setMessage('');
     setUploading(true);
     setProgress(0);
 
     try {
-      // Generate encryption key and IV
-      console.log('🔑 Generating AES-256 key...');
-      const key = await generateAESKey();
+      let key, salt;
       const iv = generateIV();
+
+      // Derive key from password if provided, otherwise generate random key
+      if (usePassword && password) {
+        console.log('🔑 Deriving AES-256 key from password...');
+        salt = generateSalt();
+        key = await deriveKeyFromPassword(password, salt);
+      } else {
+        console.log('🔑 Generating random AES-256 key...');
+        key = await generateAESKey();
+      }
 
       setProgress(20);
 
@@ -75,11 +103,13 @@ export default function FileUpload({ onUploadSuccess }) {
 
       // Upload encrypted file
       console.log('📤 Uploading encrypted file...');
+      const saltBase64 = salt ? arrayBufferToBase64(salt) : null;
       const response = await fileAPI.upload(
         encryptedBlob,
         ivBase64,
         authTagBase64Final,
-        file.name
+        file.name,
+        saltBase64
       );
 
       setProgress(90);
@@ -89,9 +119,12 @@ export default function FileUpload({ onUploadSuccess }) {
 
       setProgress(100);
 
-      setMessage(`✅ File encrypted and uploaded successfully! File ID: ${response.data.file.id}`);
+      setMessage(`✅ File encrypted and uploaded successfully! File ID: ${response.data.file.id}${usePassword ? ' (Password protected)' : ''}`);
       console.log('✅ Upload complete');
       setFile(null);
+      setPassword('');
+      setConfirmPassword('');
+      setUsePassword(false);
 
       // Reset form
       const fileInput = document.querySelector('input[type="file"]');
@@ -136,6 +169,39 @@ export default function FileUpload({ onUploadSuccess }) {
             <p><strong>Size:</strong> {(file.size / 1024 / 1024).toFixed(2)} MB</p>
           </div>
         )}
+
+        <div className="password-section">
+          <label className="checkbox-label">
+            <input
+              type="checkbox"
+              checked={usePassword}
+              onChange={(e) => setUsePassword(e.target.checked)}
+              disabled={uploading}
+            />
+            🔐 Protect with password (for sharing)
+          </label>
+
+          {usePassword && (
+            <div className="password-inputs">
+              <input
+                type="password"
+                placeholder="Enter password (min 8 characters)"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                disabled={uploading}
+                className="form-input"
+              />
+              <input
+                type="password"
+                placeholder="Confirm password"
+                value={confirmPassword}
+                onChange={(e) => setConfirmPassword(e.target.value)}
+                disabled={uploading}
+                className="form-input"
+              />
+            </div>
+          )}
+        </div>
 
         {uploading && (
           <div className="progress-bar">

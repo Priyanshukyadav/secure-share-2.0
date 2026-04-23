@@ -113,36 +113,28 @@ export default function FileList() {
   };
 
   const handleShare = async (fileId) => {
-    if (!sharePassword) {
-      setError('Please enter a password for sharing');
-      return;
-    }
-
     setSharingId(fileId);
 
     try {
-      // For shared files, we generate a new salt for PBKDF2
-      const { generateSalt, arrayBufferToBase64 } = await import('../utils/encryption');
-      const salt = generateSalt();
-      const saltBase64 = arrayBufferToBase64(salt);
-
-      const response = await fileAPI.share(fileId, saltBase64, shareExpiry || undefined);
+      // Share file using password set during upload
+      const response = await fileAPI.share(fileId, undefined, shareExpiry || undefined);
 
       const shareLink = response.data.shareUrl;
-      const text = `Check out this encrypted file: ${shareLink}\nPassword: ${sharePassword}\n\nPassword is required to decrypt it!`;
+      const text = `Check out this encrypted file: ${shareLink}`;
 
       // Copy to clipboard
       await navigator.clipboard.writeText(text);
 
       setError('');
-      alert(`Share link copied to clipboard!\n\nShare link: ${shareLink}\nPassword: ${sharePassword}`);
+      alert(`Share link copied to clipboard!\n\nShare link: ${shareLink}\n\nShared files use the password set during upload.`);
 
       setSharePassword('');
       setShareExpiry(0);
       setSharingId(null);
     } catch (err) {
-      setError('Failed to share file');
-      console.error('Share error:', err);
+      const errorMsg = err.response?.data?.message || err.message || 'Failed to share file';
+      setError(errorMsg);
+      console.error('Share error:', errorMsg);
     }
   };
 

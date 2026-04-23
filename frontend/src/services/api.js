@@ -68,13 +68,17 @@ export const fileAPI = {
    * @param {string} iv - Base64 encoded IV
    * @param {string} authTag - Base64 encoded auth tag
    * @param {string} originalName - Original filename
+   * @param {string} salt - Optional base64 encoded salt for password-derived key
    */
-  upload: (file, iv, authTag, originalName) => {
+  upload: (file, iv, authTag, originalName, salt) => {
     const formData = new FormData();
     formData.append('file', file);
     formData.append('iv', iv);
     formData.append('authTag', authTag);
     formData.append('originalName', originalName);
+    if (salt) {
+      formData.append('salt', salt);
+    }
 
     return api.post('/files/upload', formData, {
       headers: {
@@ -113,11 +117,16 @@ export const fileAPI = {
   /**
    * Share file with password protection
    * @param {string} fileId - File ID
-   * @param {string} shareSalt - Base64 encoded salt for PBKDF2
+   * @param {string} shareSalt - Optional base64 encoded salt for PBKDF2
    * @param {number} expiresIn - Expiration time in hours (optional)
    */
-  share: (fileId, shareSalt, expiresIn) =>
-    api.post(`/files/${fileId}/share`, { shareSalt, expiresIn }),
+  share: (fileId, shareSalt, expiresIn) => {
+    const body = { expiresIn };
+    if (shareSalt) {
+      body.shareSalt = shareSalt;
+    }
+    return api.post(`/files/${fileId}/share`, body);
+  },
 
   /**
    * Get shared file info

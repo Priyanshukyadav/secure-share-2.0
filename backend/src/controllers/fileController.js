@@ -32,7 +32,7 @@ export const uploadFile = async (req, res, next) => {
       });
     }
 
-    const { iv, authTag, originalName } = req.body;
+    const { iv, authTag, originalName, salt } = req.body;
 
     // Validate encryption metadata
     try {
@@ -57,13 +57,19 @@ export const uploadFile = async (req, res, next) => {
       isPublic: false
     };
 
+    // Store salt if provided (password-protected file)
+    if (salt) {
+      fileData.shareSalt = salt;
+    }
+
     const file = await File.create(fileData);
 
     console.log('✅ File uploaded successfully:', {
       fileId: file._id,
       filename: file.filename,
       size: file.size,
-      owner: req.userId
+      owner: req.userId,
+      passwordProtected: !!salt
     });
 
     res.status(201).json({
@@ -273,8 +279,8 @@ export const deleteFile = async (req, res, next) => {
  * POST /api/files/:id/share
  * 
  * Body:
- * - shareSalt: base64 encoded salt for PBKDF2
  * - expiresIn: optional, expiration time in hours
+ * (shareSalt is optional - uses salt from password-protected upload if available)
  */
 export const shareFile = async (req, res, next) => {
   try {
@@ -295,12 +301,13 @@ export const shareFile = async (req, res, next) => {
       });
     }
 
-    const { shareSalt, expiresIn } = req.body;
+    const { expiresIn } = req.body;
 
-    if (!shareSalt) {
+    // If file doesn't have salt, it can't be shared (it was encrypted with random key)
+    if (!file.shareSalt) {
       return res.status(400).json({
         success: false,
-        message: 'Share salt is required'
+        message: 'File must be uploaded with password protection to share. Please upload with a password.'
       });
     }
 
@@ -316,7 +323,6 @@ export const shareFile = async (req, res, next) => {
     // Update file
     file.isPublic = true;
     file.shareToken = shareToken;
-    file.shareSalt = shareSalt;
     if (expiresAt) {
       file.expiresAt = expiresAt;
     }
@@ -325,7 +331,8 @@ export const shareFile = async (req, res, next) => {
     console.log('✅ File shared:', {
       fileId: file._id,
       shareToken,
-      expiresAt
+      expiresAt,
+      saltUsed: file.shareSalt
     });
 
     res.status(200).json({
