@@ -1,8 +1,16 @@
+<<<<<<< HEAD
 # End-to-End Encrypted File Sharing System - Frontend
 
 A production-ready React frontend for secure file sharing using **AES-256-GCM encryption** in the browser. Files are encrypted before upload and keys never leave your device.
 
 ## Key Features
+=======
+# 🔐 End-to-End Encrypted File Sharing System - Frontend
+
+A production-ready React frontend for secure file sharing using **AES-256-GCM encryption** in the browser. Files are encrypted before upload and keys never leave your device.
+
+## ✨ Key Features
+>>>>>>> c8d095a1ca0383f6c4c6e0d18929a43270b44e56
 
 - **Client-Side AES-256-GCM Encryption**: Files encrypted before upload
 - **PBKDF2 Key Derivation**: Secure password-based encryption for shared files
@@ -12,13 +20,21 @@ A production-ready React frontend for secure file sharing using **AES-256-GCM en
 - **Real-time Encryption Logs**: See encryption/decryption process
 - **Automatic File Expiration**: Set share link expiration
 
+<<<<<<< HEAD
 ## Requirements
+=======
+## 📋 Requirements
+>>>>>>> c8d095a1ca0383f6c4c6e0d18929a43270b44e56
 
 - Node.js 18+
 - npm or yarn
 - Modern browser with Web Crypto API support
 
+<<<<<<< HEAD
 ## Installation
+=======
+## 🚀 Installation
+>>>>>>> c8d095a1ca0383f6c4c6e0d18929a43270b44e56
 
 ### 1. Install Dependencies
 
@@ -55,7 +71,11 @@ npm run build
 
 Outputs to `dist/` directory
 
+<<<<<<< HEAD
 ## Encryption in Browser
+=======
+## 🔐 Encryption in Browser
+>>>>>>> c8d095a1ca0383f6c4c6e0d18929a43270b44e56
 
 ### AES-256-GCM Encryption
 
@@ -96,7 +116,11 @@ const key = retrieveKey(fileId);
 deleteKey(fileId);
 ```
 
+<<<<<<< HEAD
 ## User Interface
+=======
+## 📱 User Interface
+>>>>>>> c8d095a1ca0383f6c4c6e0d18929a43270b44e56
 
 ### Dashboard
 
@@ -118,7 +142,11 @@ deleteKey(fileId);
 - **Password Entry**: Enter password to decrypt
 - **Download**: Download and decrypt shared file
 
+<<<<<<< HEAD
 ## Workflows
+=======
+## 🎯 Workflows
+>>>>>>> c8d095a1ca0383f6c4c6e0d18929a43270b44e56
 
 ### Upload & Encrypt
 
@@ -158,7 +186,11 @@ deleteKey(fileId);
 8. Recipient can decrypt with password
 ```
 
+<<<<<<< HEAD
 ## Key Management
+=======
+## 🔑 Key Management
+>>>>>>> c8d095a1ca0383f6c4c6e0d18929a43270b44e56
 
 ### Owner's Files
 
@@ -174,7 +206,11 @@ deleteKey(fileId);
 - **Key Recovery**: Recalculate from password anytime
 - **Password**: Shared separately, never sent to server
 
+<<<<<<< HEAD
 ## Component Structure
+=======
+## 📊 Component Structure
+>>>>>>> c8d095a1ca0383f6c4c6e0d18929a43270b44e56
 
 ```
 src/
@@ -201,7 +237,11 @@ src/
 └── main.jsx (Entry point)
 ```
 
+<<<<<<< HEAD
 ## Deployment
+=======
+## 🚀 Deployment
+>>>>>>> c8d095a1ca0383f6c4c6e0d18929a43270b44e56
 
 ### Deploy on Vercel
 
@@ -229,9 +269,15 @@ src/
 # Use Vercel or Netlify instead
 ```
 
+<<<<<<< HEAD
 ## Security Considerations
 
 ### What's Secure
+=======
+## 🔒 Security Considerations
+
+### ✅ What's Secure
+>>>>>>> c8d095a1ca0383f6c4c6e0d18929a43270b44e56
 
 - Files encrypted before upload
 - Encryption keys never sent to server
@@ -240,7 +286,11 @@ src/
 - SessionStorage auto-clears on browser close
 - Strong key derivation (100,000 iterations)
 
+<<<<<<< HEAD
 ### Important Notes
+=======
+### ⚠️ Important Notes
+>>>>>>> c8d095a1ca0383f6c4c6e0d18929a43270b44e56
 
 - **Browser Security**: Only secure with HTTPS
 - **Session Storage**: Cleared when tab closes
@@ -248,22 +298,36 @@ src/
 - **Share Links**: Do not share publicly
 - **Server Trust**: Backend can still see metadata
 
+<<<<<<< HEAD
 ### What's NOT Encrypted
+=======
+### 🚫 What's NOT Encrypted
+>>>>>>> c8d095a1ca0383f6c4c6e0d18929a43270b44e56
 
 - Filename (stored on server)
 - File size (stored on server)
 - Upload timestamp (stored on server)
 - Sharing metadata (stored on server)
 
+<<<<<<< HEAD
 ## Testing
+=======
+## 🧪 Testing
+>>>>>>> c8d095a1ca0383f6c4c6e0d18929a43270b44e56
 
 ### Test Encryption
 
 1. Upload a file
 2. Open DevTools Console
+<<<<<<< HEAD
 3. See "File encrypted successfully" message
 4. Download file
 5. See "File decrypted successfully" message
+=======
+3. See "✅ File encrypted successfully" message
+4. Download file
+5. See "✅ File decrypted successfully" message
+>>>>>>> c8d095a1ca0383f6c4c6e0d18929a43270b44e56
 
 ### Test File Tampering
 
@@ -289,7 +353,11 @@ src/
 4. Try to download the file
 5. Should see "No key in sessionStorage" error
 
+<<<<<<< HEAD
 ## Troubleshooting
+=======
+## 🐛 Troubleshooting
+>>>>>>> c8d095a1ca0383f6c4c6e0d18929a43270b44e56
 
 ### "File integrity compromised"
 
@@ -325,6 +393,7 @@ src/
 - Use HTTPS
 - Not supported in older browsers
 
+<<<<<<< HEAD
 ## Browser Support
 
 | Browser     | Support | Notes             |
@@ -337,6 +406,20 @@ src/
 | IE          | No      | No Web Crypto API |
 
 ## Configuration
+=======
+## 📚 Browser Support
+
+| Browser     | Support | Notes             |
+| ----------- | ------- | ----------------- |
+| Chrome 37+  | ✅      | Full support      |
+| Firefox 34+ | ✅      | Full support      |
+| Safari 11+  | ✅      | Full support      |
+| Edge 79+    | ✅      | Full support      |
+| Opera 24+   | ✅      | Full support      |
+| IE          | ❌      | No Web Crypto API |
+
+## 🔧 Configuration
+>>>>>>> c8d095a1ca0383f6c4c6e0d18929a43270b44e56
 
 ### Maximum File Size
 
@@ -352,11 +435,16 @@ VITE_MAX_FILE_SIZE=104857600  # 100MB in bytes
 VITE_API_BASE_URL=https://api.example.com/api
 ```
 
+<<<<<<< HEAD
 ## Console Logging
+=======
+## 📝 Console Logging
+>>>>>>> c8d095a1ca0383f6c4c6e0d18929a43270b44e56
 
 Watch the browser console for encryption operations:
 
 ```
+<<<<<<< HEAD
 Generating AES-256 key...
 File encrypted successfully with AES-256-GCM
   IV: [base64 string]
@@ -367,6 +455,18 @@ Key stored in sessionStorage
 ```
 
 ## Customization
+=======
+✅ Generating AES-256 key...
+✅ File encrypted successfully with AES-256-GCM
+  IV: [base64 string]
+  Ciphertext size: 1024000 bytes
+📤 Uploading encrypted file...
+✅ Upload complete
+🔑 Key stored in sessionStorage
+```
+
+## 🎨 Customization
+>>>>>>> c8d095a1ca0383f6c4c6e0d18929a43270b44e56
 
 ### Colors
 
@@ -391,10 +491,18 @@ export default defineConfig({
 });
 ```
 
+<<<<<<< HEAD
 ## License
+=======
+## 📄 License
+>>>>>>> c8d095a1ca0383f6c4c6e0d18929a43270b44e56
 
 MIT
 
 ---
 
+<<<<<<< HEAD
 **Note**: This frontend provides client-side encryption. Always use HTTPS in production!
+=======
+**🔐 Remember**: This frontend provides client-side encryption. Always use HTTPS in production!
+>>>>>>> c8d095a1ca0383f6c4c6e0d18929a43270b44e56
