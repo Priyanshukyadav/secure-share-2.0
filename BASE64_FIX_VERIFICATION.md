@@ -287,3 +287,5 @@ If issues occur, rollback to previous header names:
 - [ ] Downloaded files are intact and decryptable
 - [ ] No console errors during normal file operations
 - [ ] Edge cases (empty headers, invalid base64) handled gracefully
+
+

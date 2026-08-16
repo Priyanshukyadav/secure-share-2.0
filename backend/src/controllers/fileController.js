@@ -277,10 +277,10 @@ export const deleteFile = async (req, res, next) => {
 /**
  * Share file
  * POST /api/files/:id/share
- * 
+ *
  * Body:
  * - expiresIn: optional, expiration time in hours
- * (shareSalt is optional - uses salt from password-protected upload if available)
+ * The original file password is already stored at upload time; no second share password is needed.
  */
 export const shareFile = async (req, res, next) => {
   try {

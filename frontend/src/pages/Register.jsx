@@ -27,11 +27,17 @@ export default function Register() {
     setLoading(true);
 
     try {
+      const payload = {
+        ...formData,
+        name: formData.name.trim(),
+        email: formData.email.trim().toLowerCase()
+      };
+
       const response = await authAPI.register(
-        formData.name,
-        formData.email,
-        formData.password,
-        formData.confirmPassword
+        payload.name,
+        payload.email,
+        payload.password,
+        payload.confirmPassword
       );
 
       setAuthToken(response.data.token);

@@ -115,17 +115,13 @@ export const fileAPI = {
     api.delete(`/files/${fileId}`),
 
   /**
-   * Share file with password protection
+   * Share an uploaded file.
+   * The password is already attached to the file at upload time.
    * @param {string} fileId - File ID
-   * @param {string} shareSalt - Optional base64 encoded salt for PBKDF2
    * @param {number} expiresIn - Expiration time in hours (optional)
    */
-  share: (fileId, shareSalt, expiresIn) => {
-    const body = { expiresIn };
-    if (shareSalt) {
-      body.shareSalt = shareSalt;
-    }
-    return api.post(`/files/${fileId}/share`, body);
+  share: (fileId, expiresIn) => {
+    return api.post(`/files/${fileId}/share`, { expiresIn });
   },
 
   /**

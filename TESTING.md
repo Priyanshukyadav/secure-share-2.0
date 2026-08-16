@@ -1,4 +1,4 @@
-# 🧪 Testing Guide
+#  Testing Guide
 
 Comprehensive testing guide for the End-to-End Encrypted File Sharing System.
 
@@ -16,15 +16,15 @@ Comprehensive testing guide for the End-to-End Encrypted File Sharing System.
 All encryption/decryption operations log to browser console. Watch for:
 
 ```
-✅ Generating AES-256 key...
-✅ File encrypted successfully with AES-256-GCM
-📤 Uploading encrypted file...
-✅ Key stored in sessionStorage
+ Generating AES-256 key...
+ File encrypted successfully with AES-256-GCM
+ Uploading encrypted file...
+ Key stored in sessionStorage
 ```
 
 ---
 
-## 🧑‍💼 User Registration & Login
+##  User Registration & Login
 
 ### Test 1: Register New User
 
@@ -40,10 +40,10 @@ All encryption/decryption operations log to browser console. Watch for:
 
 **Expected Result:**
 
-- ✅ User created
-- ✅ Logged in automatically
-- ✅ Redirected to dashboard
-- ✅ Token stored in localStorage
+-  User created
+-  Logged in automatically
+-  Redirected to dashboard
+-  Token stored in localStorage
 
 ### Test 2: Login with Credentials
 
@@ -58,9 +58,9 @@ All encryption/decryption operations log to browser console. Watch for:
 
 **Expected Result:**
 
-- ✅ Login successful
-- ✅ Token retrieved
-- ✅ User info displayed
+-  Login successful
+-  Token retrieved
+-  User info displayed
 
 ### Test 3: Invalid Credentials
 
@@ -71,9 +71,9 @@ All encryption/decryption operations log to browser console. Watch for:
 
 **Expected Result:**
 
-- ✅ Error message shown
-- ✅ Not logged in
-- ✅ Redirected to login
+-  Error message shown
+-  Not logged in
+-  Redirected to login
 
 ### Test 4: Duplicate Email
 
@@ -83,29 +83,29 @@ All encryption/decryption operations log to browser console. Watch for:
 
 **Expected Result:**
 
-- ✅ Error: "User already exists"
-- ✅ Registration fails
+-  Error: "User already exists"
+-  Registration fails
 
 ---
 
-## 📤 File Upload & Encryption
+##  File Upload & Encryption
 
 ### Test 5: Upload Small File
 
 **Steps:**
 
-1. Dashboard → Upload section
+1. Dashboard  Upload section
 2. Click file input
 3. Select small file (< 1MB)
 4. Click "Upload & Encrypt"
 
 **Expected Result:**
 
-- ✅ Console shows "Generating AES-256 key"
-- ✅ Console shows "File encrypted successfully"
-- ✅ Upload progress bar appears
-- ✅ Upload completes
-- ✅ File appears in file list
+-  Console shows "Generating AES-256 key"
+-  Console shows "File encrypted successfully"
+-  Upload progress bar appears
+-  Upload completes
+-  File appears in file list
 
 **Verify Encryption:**
 
@@ -123,9 +123,9 @@ sessionStorage.getItem("e2e_key_<fileId>");
 
 **Expected Result:**
 
-- ✅ Encryption takes a few seconds
-- ✅ Progress bar shows actual progress
-- ✅ File appears in list with correct size
+-  Encryption takes a few seconds
+-  Progress bar shows actual progress
+-  File appears in list with correct size
 
 ### Test 7: Upload Large File (100 MB)
 
@@ -136,9 +136,9 @@ sessionStorage.getItem("e2e_key_<fileId>");
 
 **Expected Result:**
 
-- ✅ Encryption completes (might take 30-60 seconds)
-- ✅ File metadata shows correct size
-- ✅ Backend receives encrypted data correctly
+-  Encryption completes (might take 30-60 seconds)
+-  File metadata shows correct size
+-  Backend receives encrypted data correctly
 
 ### Test 8: Upload Maximum File Size
 
@@ -149,8 +149,8 @@ sessionStorage.getItem("e2e_key_<fileId>");
 
 **Expected Result:**
 
-- ✅ Error shown: "File size exceeds limit"
-- ✅ Upload blocked
+-  Error shown: "File size exceeds limit"
+-  Upload blocked
 
 ### Test 9: Upload Multiple Files
 
@@ -161,13 +161,13 @@ sessionStorage.getItem("e2e_key_<fileId>");
 
 **Expected Result:**
 
-- ✅ Each file has unique key in sessionStorage
-- ✅ Each file appears in list
-- ✅ File list shows all 3 files
+-  Each file has unique key in sessionStorage
+-  Each file appears in list
+-  File list shows all 3 files
 
 ---
 
-## ⬇️ File Download & Decryption
+##  File Download & Decryption
 
 ### Test 10: Download Encrypted File
 
@@ -179,11 +179,11 @@ sessionStorage.getItem("e2e_key_<fileId>");
 
 **Expected Result:**
 
-- ✅ Console shows "Retrieving key from sessionStorage"
-- ✅ Console shows "Decrypting file"
-- ✅ Console shows "File decrypted successfully"
-- ✅ File downloads to computer
-- ✅ Downloaded file matches original
+-  Console shows "Retrieving key from sessionStorage"
+-  Console shows "Decrypting file"
+-  Console shows "File decrypted successfully"
+-  File downloads to computer
+-  Downloaded file matches original
 
 **Verify Decryption:**
 
@@ -202,24 +202,24 @@ sessionStorage.getItem("e2e_key_<fileId>");
 
 **Expected Result:**
 
-- ✅ Each decrypts with correct key
-- ✅ All files match originals
-- ✅ Each has separate encryption key
+-  Each decrypts with correct key
+-  All files match originals
+-  Each has separate encryption key
 
 ### Test 12: Missing Encryption Key
 
 **Steps:**
 
 1. Upload file
-2. Open DevTools → Application → SessionStorage
+2. Open DevTools  Application  SessionStorage
 3. Delete the `e2e_key_*` entry
 4. Try to download file
 
 **Expected Result:**
 
-- ✅ Error shown: "Encryption key not found"
-- ✅ Decryption blocked
-- ✅ File not downloaded
+-  Error shown: "Encryption key not found"
+-  Decryption blocked
+-  File not downloaded
 
 ### Test 13: Verify Encryption Integrity
 
@@ -233,14 +233,14 @@ sessionStorage.getItem("e2e_key_<fileId>");
 
 **Expected Result:**
 
-- ✅ Console shows decryption error
-- ✅ Error message: "File integrity compromised"
-- ✅ Authentication tag verification fails
-- ✅ File not decrypted
+-  Console shows decryption error
+-  Error message: "File integrity compromised"
+-  Authentication tag verification fails
+-  File not decrypted
 
 ---
 
-## 🔗 File Sharing & Password Protection
+##  File Sharing & Password Protection
 
 ### Test 14: Generate Share Link
 
@@ -254,10 +254,10 @@ sessionStorage.getItem("e2e_key_<fileId>");
 
 **Expected Result:**
 
-- ✅ Share link generated
-- ✅ Link copied to clipboard
-- ✅ Message shows: "Share link copied"
-- ✅ Link format: `http://localhost:5173/shared/<token>`
+-  Share link generated
+-  Link copied to clipboard
+-  Message shows: "Share link copied"
+-  Link format: `http://localhost:5173/shared/<token>`
 
 ### Test 15: Access Shared File with Correct Password
 
@@ -270,11 +270,11 @@ sessionStorage.getItem("e2e_key_<fileId>");
 
 **Expected Result:**
 
-- ✅ File info displayed
-- ✅ Password field visible
-- ✅ Console shows PBKDF2 key derivation
-- ✅ Console shows decryption with derived key
-- ✅ File downloads correctly
+-  File info displayed
+-  Password field visible
+-  Console shows PBKDF2 key derivation
+-  Console shows decryption with derived key
+-  File downloads correctly
 
 ### Test 16: Access Shared File with Wrong Password
 
@@ -286,10 +286,10 @@ sessionStorage.getItem("e2e_key_<fileId>");
 
 **Expected Result:**
 
-- ✅ Console shows key derivation (different key)
-- ✅ Console shows decryption error
-- ✅ Error message: "File integrity compromised"
-- ✅ File not downloaded
+-  Console shows key derivation (different key)
+-  Console shows decryption error
+-  Error message: "File integrity compromised"
+-  File not downloaded
 
 ### Test 17: Access Expired Shared Link
 
@@ -301,9 +301,9 @@ sessionStorage.getItem("e2e_key_<fileId>");
 
 **Expected Result:**
 
-- ✅ Error: "Shared file has expired"
-- ✅ File not accessible
-- ✅ Download blocked
+-  Error: "Shared file has expired"
+-  File not accessible
+-  Download blocked
 
 ### Test 18: Multiple Share Links for Same File
 
@@ -315,13 +315,13 @@ sessionStorage.getItem("e2e_key_<fileId>");
 
 **Expected Result:**
 
-- ✅ Both links work
-- ✅ Each requires correct password
-- ✅ Same encrypted file, different passwords
+-  Both links work
+-  Each requires correct password
+-  Same encrypted file, different passwords
 
 ---
 
-## 🔒 SessionStorage Key Management
+##  SessionStorage Key Management
 
 ### Test 19: Key Persistence Within Session
 
@@ -334,9 +334,9 @@ sessionStorage.getItem("e2e_key_<fileId>");
 
 **Expected Result:**
 
-- ✅ Key still in sessionStorage
-- ✅ Download works
-- ✅ File decrypts correctly
+-  Key still in sessionStorage
+-  Download works
+-  File decrypts correctly
 
 ### Test 20: Key Loss on Tab Close
 
@@ -349,9 +349,9 @@ sessionStorage.getItem("e2e_key_<fileId>");
 
 **Expected Result:**
 
-- ✅ New tab has empty sessionStorage
-- ✅ Error: "Encryption key not found"
-- ✅ Download fails (expected behavior)
+-  New tab has empty sessionStorage
+-  Error: "Encryption key not found"
+-  Download fails (expected behavior)
 
 ### Test 21: Key Not Shared Between Tabs
 
@@ -363,29 +363,29 @@ sessionStorage.getItem("e2e_key_<fileId>");
 
 **Expected Result:**
 
-- ✅ Tab 2 has different sessionStorage
-- ✅ Key not visible in Tab 2
-- ✅ Error: "Encryption key not found"
-- ✅ Download fails
+-  Tab 2 has different sessionStorage
+-  Key not visible in Tab 2
+-  Error: "Encryption key not found"
+-  Download fails
 
 ### Test 22: Clear SessionStorage
 
 **Steps:**
 
 1. Upload file
-2. Open DevTools → Console
+2. Open DevTools  Console
 3. Run: `sessionStorage.clear()`
 4. Try to download file
 
 **Expected Result:**
 
-- ✅ Error: "Encryption key not found"
-- ✅ All keys cleared
-- ✅ No files downloadable
+-  Error: "Encryption key not found"
+-  All keys cleared
+-  No files downloadable
 
 ---
 
-## 🚨 Error Handling
+##  Error Handling
 
 ### Test 23: Network Error During Upload
 
@@ -396,10 +396,10 @@ sessionStorage.getItem("e2e_key_<fileId>");
 
 **Expected Result:**
 
-- ✅ Upload fails after timeout
-- ✅ Error message shown
-- ✅ File not stored
-- ✅ Key not stored
+-  Upload fails after timeout
+-  Error message shown
+-  File not stored
+-  Key not stored
 
 ### Test 24: Network Error During Download
 
@@ -410,24 +410,24 @@ sessionStorage.getItem("e2e_key_<fileId>");
 
 **Expected Result:**
 
-- ✅ Download fails
-- ✅ Error shown
-- ✅ File not corrupted
+-  Download fails
+-  Error shown
+-  File not corrupted
 
 ### Test 25: Invalid JWT Token
 
 **Steps:**
 
 1. Login
-2. Open DevTools → Application
+2. Open DevTools  Application
 3. Modify auth_token in localStorage
 4. Try to access dashboard
 
 **Expected Result:**
 
-- ✅ Error: "Invalid token"
-- ✅ Redirect to login
-- ✅ Session cleared
+-  Error: "Invalid token"
+-  Redirect to login
+-  Session cleared
 
 ### Test 26: Expired JWT Token
 
@@ -438,13 +438,13 @@ sessionStorage.getItem("e2e_key_<fileId>");
 
 **Expected Result:**
 
-- ✅ Error: "Token expired"
-- ✅ Redirect to login
-- ✅ Force re-login
+-  Error: "Token expired"
+-  Redirect to login
+-  Force re-login
 
 ---
 
-## 📊 File Metadata
+##  File Metadata
 
 ### Test 27: File Metadata Display
 
@@ -455,9 +455,9 @@ sessionStorage.getItem("e2e_key_<fileId>");
 
 **Expected Result:**
 
-- ✅ Filename shown correctly
-- ✅ File size shown correctly
-- ✅ Upload date shown correctly
+-  Filename shown correctly
+-  File size shown correctly
+-  Upload date shown correctly
 
 ### Test 28: File Deletion
 
@@ -469,29 +469,29 @@ sessionStorage.getItem("e2e_key_<fileId>");
 
 **Expected Result:**
 
-- ✅ File removed from database
-- ✅ File removed from filesystem
-- ✅ File removed from list
-- ✅ Key removed from sessionStorage
+-  File removed from database
+-  File removed from filesystem
+-  File removed from list
+-  Key removed from sessionStorage
 
 ---
 
-## 🔐 Encryption Algorithm Verification
+##  Encryption Algorithm Verification
 
 ### Test 29: AES-256-GCM Parameters
 
 **Steps:**
 
 1. Upload file
-2. Open DevTools → Console
+2. Open DevTools  Console
 3. Check console logs for encryption details
 
 **Expected Result:**
 
-- ✅ Logs show "AES-256-GCM"
-- ✅ IV shown (12 bytes = 16 chars base64)
-- ✅ AuthTag shown (16 bytes = 24 chars base64)
-- ✅ Key shown (256-bit = 32 bytes)
+-  Logs show "AES-256-GCM"
+-  IV shown (12 bytes = 16 chars base64)
+-  AuthTag shown (16 bytes = 24 chars base64)
+-  Key shown (256-bit = 32 bytes)
 
 ### Test 30: PBKDF2 Parameters
 
@@ -502,14 +502,14 @@ sessionStorage.getItem("e2e_key_<fileId>");
 
 **Expected Result:**
 
-- ✅ Logs show "PBKDF2"
-- ✅ Iterations: 100,000
-- ✅ Hash: SHA-256
-- ✅ Key derived from password
+-  Logs show "PBKDF2"
+-  Iterations: 100,000
+-  Hash: SHA-256
+-  Key derived from password
 
 ---
 
-## 🧑‍💻 Developer/Debug Tests
+##  Developer/Debug Tests
 
 ### Test 31: Console Logging
 
@@ -520,40 +520,40 @@ sessionStorage.getItem("e2e_key_<fileId>");
 
 **Expected Result:**
 
-- ✅ See all encryption logs
-- ✅ See API calls
-- ✅ See errors clearly
-- ✅ No sensitive data in logs
+-  See all encryption logs
+-  See API calls
+-  See errors clearly
+-  No sensitive data in logs
 
 ### Test 32: API Response Headers
 
 **Steps:**
 
 1. Download file
-2. Open DevTools → Network tab
+2. Open DevTools  Network tab
 3. Click on download request
 
 **Expected Result:**
 
-- ✅ Response headers show: `X-Encryption-IV`
-- ✅ Response headers show: `X-Encryption-Auth-Tag`
-- ✅ Response headers show: `X-File-Size`
-- ✅ Content-Type: `application/octet-stream`
+-  Response headers show: `X-Encryption-IV`
+-  Response headers show: `X-Encryption-Auth-Tag`
+-  Response headers show: `X-File-Size`
+-  Content-Type: `application/octet-stream`
 
 ### Test 33: Request Payload
 
 **Steps:**
 
 1. Upload file
-2. Open DevTools → Network tab
+2. Open DevTools  Network tab
 3. Check upload request
 
 **Expected Result:**
 
-- ✅ Form data shows: `file` (binary)
-- ✅ Form data shows: `iv` (base64)
-- ✅ Form data shows: `authTag` (base64)
-- ✅ Form data shows: `originalName` (string)
+-  Form data shows: `file` (binary)
+-  Form data shows: `iv` (base64)
+-  Form data shows: `authTag` (base64)
+-  Form data shows: `originalName` (string)
 
 ### Test 34: Database Records
 
@@ -564,15 +564,15 @@ sessionStorage.getItem("e2e_key_<fileId>");
 
 **Expected Result:**
 
-- ✅ User record created
-- ✅ File metadata stored
-- ✅ File has: filename, size, owner, iv, authTag
-- ✅ No plaintext data
-- ✅ No encryption keys in database
+-  User record created
+-  File metadata stored
+-  File has: filename, size, owner, iv, authTag
+-  No plaintext data
+-  No encryption keys in database
 
 ---
 
-## 🎯 Security Tests
+##  Security Tests
 
 ### Test 35: XSS Protection
 
@@ -583,9 +583,9 @@ sessionStorage.getItem("e2e_key_<fileId>");
 
 **Expected Result:**
 
-- ✅ Filename treated as plain text
-- ✅ Script tag displayed, not executed
-- ✅ No XSS vulnerability
+-  Filename treated as plain text
+-  Script tag displayed, not executed
+-  No XSS vulnerability
 
 ### Test 36: CSRF Protection
 
@@ -596,9 +596,9 @@ sessionStorage.getItem("e2e_key_<fileId>");
 
 **Expected Result:**
 
-- ✅ API validates same-origin
-- ✅ CORS properly configured
-- ✅ Frontend origin matches backend
+-  API validates same-origin
+-  CORS properly configured
+-  Frontend origin matches backend
 
 ### Test 37: Rate Limiting
 
@@ -608,13 +608,13 @@ sessionStorage.getItem("e2e_key_<fileId>");
 
 **Expected Result:**
 
-- ✅ 5th request succeeds
-- ✅ 6th request fails
-- ✅ Error: "Too many requests"
+-  5th request succeeds
+-  6th request fails
+-  Error: "Too many requests"
 
 ---
 
-## 📱 Cross-Browser Tests
+##  Cross-Browser Tests
 
 ### Test 38: Chrome/Chromium
 
@@ -643,7 +643,7 @@ sessionStorage.getItem("e2e_key_<fileId>");
 
 ---
 
-## 📝 Performance Tests
+##  Performance Tests
 
 ### Test 42: Large File Encryption
 
@@ -654,9 +654,9 @@ sessionStorage.getItem("e2e_key_<fileId>");
 
 **Expected Result:**
 
-- ✅ Encryption completes in < 60 seconds
-- ✅ Progress shown to user
-- ✅ No UI freezes
+-  Encryption completes in < 60 seconds
+-  Progress shown to user
+-  No UI freezes
 
 ### Test 43: Large File Decryption
 
@@ -667,9 +667,9 @@ sessionStorage.getItem("e2e_key_<fileId>");
 
 **Expected Result:**
 
-- ✅ Decryption completes in < 60 seconds
-- ✅ File downloads correctly
-- ✅ No data loss
+-  Decryption completes in < 60 seconds
+-  File downloads correctly
+-  No data loss
 
 ### Test 44: Many Small Files
 
@@ -680,13 +680,13 @@ sessionStorage.getItem("e2e_key_<fileId>");
 
 **Expected Result:**
 
-- ✅ All files upload successfully
-- ✅ All files have unique keys
-- ✅ All files download correctly
+-  All files upload successfully
+-  All files have unique keys
+-  All files download correctly
 
 ---
 
-## ✅ Final Verification Checklist
+##  Final Verification Checklist
 
 - [ ] User auth works (register, login, logout)
 - [ ] File upload with encryption works
@@ -706,7 +706,7 @@ sessionStorage.getItem("e2e_key_<fileId>");
 
 ---
 
-## 📊 Test Results Template
+##  Test Results Template
 
 ```markdown
 ## Test Run: [Date]
@@ -793,8 +793,15 @@ sessionStorage.getItem("e2e_key_<fileId>");
 
 ---
 
-**🎉 All tests passed? Your system is ready for deployment!**
+** All tests passed? Your system is ready for deployment!**
 
 ---
 
 Last Updated: April 2026
+
+
+
+
+
+
+

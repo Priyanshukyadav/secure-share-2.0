@@ -1,4 +1,4 @@
-# ⚡ Quick Start Guide
+#  Quick Start Guide
 
 Get your End-to-End Encrypted File Sharing System running in 5 minutes!
 
@@ -8,7 +8,7 @@ Get your End-to-End Encrypted File Sharing System running in 5 minutes!
 - MongoDB Atlas account ([Free sign up](https://mongodb.com/cloud/atlas))
 - Git
 
-## 🚀 5-Minute Setup
+##  5-Minute Setup
 
 ### Step 1: MongoDB Setup (2 minutes)
 
@@ -49,7 +49,7 @@ cp .env.example .env
 npm run dev
 ```
 
-✅ Backend running at `http://localhost:5000`
+ Backend running at `http://localhost:5000`
 
 ### Step 3: Frontend Setup (1 minute)
 
@@ -69,7 +69,7 @@ cp .env.example .env.local
 npm run dev
 ```
 
-✅ Frontend running at `http://localhost:5173`
+ Frontend running at `http://localhost:5173`
 
 ### Step 4: Test (30 seconds)
 
@@ -79,33 +79,33 @@ npm run dev
 4. Download it to verify encryption/decryption
 5. Test share feature
 
-**🎉 Done!**
+** Done!**
 
 ---
 
-## 🔐 What Just Happened?
+##  What Just Happened?
 
 ```
 Your Computer
-├── Frontend (React) - http://localhost:5173
-│   ├── Encrypts files with AES-256-GCM
-│   ├── Stores key in sessionStorage
-│   └── Sends encrypted data to backend
-│
-├── Backend (Express) - http://localhost:5000
-│   ├── Receives encrypted data
-│   ├── Stores in filesystem & metadata in MongoDB
-│   └── Never decrypts anything
-│
-└── Database (MongoDB Atlas) - Cloud
-    ├── Stores encrypted files metadata
-    ├── Stores user info
-    └── Stores share tokens
+ Frontend (React) - http://localhost:5173
+    Encrypts files with AES-256-GCM
+    Stores key in sessionStorage
+    Sends encrypted data to backend
+
+ Backend (Express) - http://localhost:5000
+    Receives encrypted data
+    Stores in filesystem & metadata in MongoDB
+    Never decrypts anything
+
+ Database (MongoDB Atlas) - Cloud
+     Stores encrypted files metadata
+     Stores user info
+     Stores share tokens
 ```
 
 ---
 
-## 🔧 Common Issues
+##  Common Issues
 
 ### Issue: Backend won't start
 
@@ -144,14 +144,14 @@ npm run dev
 
 ---
 
-## 📝 Test Scenarios
+##  Test Scenarios
 
 ### Test 1: Basic Upload/Download
 
 1. Upload file
-2. See console: "✅ File encrypted successfully"
+2. See console: " File encrypted successfully"
 3. Download file
-4. See console: "✅ File decrypted successfully"
+4. See console: " File decrypted successfully"
 5. Verify file content matches original
 
 ### Test 2: File Sharing
@@ -169,7 +169,7 @@ npm run dev
 1. Upload file
 2. Note the file ID
 3. Open browser DevTools (F12)
-4. Go to Application → Session Storage
+4. Go to Application  Session Storage
 5. Search for "e2e*key*" + file ID
 6. See base64 encoded key
 
@@ -183,35 +183,35 @@ npm run dev
 
 ---
 
-## 📂 File Structure
+##  File Structure
 
 ```
 e:\minorbanaobikaro
-├── backend/                 # Node.js + Express
-│   ├── src/
-│   │   ├── server.js       # Main entry point
-│   │   ├── models/         # Database schemas
-│   │   ├── controllers/    # Business logic
-│   │   ├── routes/         # API endpoints
-│   │   └── utils/          # Helpers
-│   └── uploads/            # Encrypted files storage
-│
-├── frontend/                # React + Vite
-│   ├── src/
-│   │   ├── pages/          # Page components
-│   │   ├── components/     # UI components
-│   │   ├── services/       # API client
-│   │   ├── utils/          # Encryption logic
-│   │   ├── styles/         # CSS files
-│   │   └── App.jsx         # Main component
-│   └── index.html          # Entry HTML
-│
-└── README.md               # Project overview
+ backend/                 # Node.js + Express
+    src/
+       server.js       # Main entry point
+       models/         # Database schemas
+       controllers/    # Business logic
+       routes/         # API endpoints
+       utils/          # Helpers
+    uploads/            # Encrypted files storage
+
+ frontend/                # React + Vite
+    src/
+       pages/          # Page components
+       components/     # UI components
+       services/       # API client
+       utils/          # Encryption logic
+       styles/         # CSS files
+       App.jsx         # Main component
+    index.html          # Entry HTML
+
+ README.md               # Project overview
 ```
 
 ---
 
-## 🔑 Key Concepts
+##  Key Concepts
 
 ### AES-256-GCM
 
@@ -225,7 +225,7 @@ e:\minorbanaobikaro
 - **100,000 iterations**: Slow on purpose (prevents brute force)
 - **SHA-256**: Strong hashing
 - **16-byte salt**: Random per share
-- **Password → Key**: Derive encryption key from password
+- **Password  Key**: Derive encryption key from password
 
 ### SessionStorage
 
@@ -236,7 +236,7 @@ e:\minorbanaobikaro
 
 ---
 
-## 🚀 Next Steps
+##  Next Steps
 
 1. **Explore the code**
    - See how encryption works in `frontend/src/utils/encryption.js`
@@ -259,7 +259,7 @@ e:\minorbanaobikaro
 
 ---
 
-## 📚 Learn More
+##  Learn More
 
 - **Backend Details**: [backend/README.md](../backend/README.md)
 - **Frontend Details**: [frontend/README.md](../frontend/README.md)
@@ -268,9 +268,9 @@ e:\minorbanaobikaro
 
 ---
 
-## 🔒 Security Notes
+##  Security Notes
 
-✅ **This is secure because:**
+ **This is secure because:**
 
 - Files are encrypted before upload
 - Server never sees plaintext
@@ -278,7 +278,7 @@ e:\minorbanaobikaro
 - Authentication tags prevent tampering
 - Strong key derivation for passwords
 
-⚠️ **For production:**
+ **For production:**
 
 - Use HTTPS only (required for Web Crypto)
 - Change JWT_SECRET to strong random value
@@ -288,7 +288,7 @@ e:\minorbanaobikaro
 
 ---
 
-## 💡 Tips
+##  Tips
 
 1. **Large Files**: Encryption takes a few seconds for 100MB files
 2. **Password Security**: Use strong passwords for shared files
@@ -298,21 +298,21 @@ e:\minorbanaobikaro
 
 ---
 
-## 🎯 Features Ready to Use
+##  Features Ready to Use
 
-✅ User Registration & Login
-✅ File Upload with Encryption
-✅ File Download with Decryption
-✅ Password-Protected File Sharing
-✅ File Expiration
-✅ Rate Limiting
-✅ Error Handling
-✅ Responsive Mobile UI
-✅ Real-time Encryption Logs
+ User Registration & Login
+ File Upload with Encryption
+ File Download with Decryption
+ Password-Protected File Sharing
+ File Expiration
+ Rate Limiting
+ Error Handling
+ Responsive Mobile UI
+ Real-time Encryption Logs
 
 ---
 
-## 🆘 Help
+##  Help
 
 1. Check the README files
 2. Look at console logs (F12)
@@ -322,8 +322,15 @@ e:\minorbanaobikaro
 
 ---
 
-**Happy Secure File Sharing! 🔐**
+**Happy Secure File Sharing! **
 
 Questions? Check the detailed READMEs for more information!
 
 Last Updated: April 2026
+
+
+
+
+
+
+

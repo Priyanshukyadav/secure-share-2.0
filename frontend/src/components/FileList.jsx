@@ -14,7 +14,6 @@ export default function FileList() {
   const [error, setError] = useState('');
   const [decryptingId, setDecryptingId] = useState(null);
   const [sharingId, setSharingId] = useState(null);
-  const [sharePassword, setSharePassword] = useState('');
   const [shareExpiry, setShareExpiry] = useState(0);
 
   useEffect(() => {
@@ -116,19 +115,17 @@ export default function FileList() {
     setSharingId(fileId);
 
     try {
-      // Share file using password set during upload
-      const response = await fileAPI.share(fileId, undefined, shareExpiry || undefined);
+      // Share file using the password that was already set during upload
+      const response = await fileAPI.share(fileId, shareExpiry || undefined);
 
       const shareLink = response.data.shareUrl;
-      const text = `Check out this encrypted file: ${shareLink}`;
 
       // Copy to clipboard
-      await navigator.clipboard.writeText(text);
+      await navigator.clipboard.writeText(shareLink);
 
       setError('');
-      alert(`Share link copied to clipboard!\n\nShare link: ${shareLink}\n\nShared files use the password set during upload.`);
+      alert(`Share link copied to clipboard!\n\nShare link: ${shareLink}\n\nThe file password is the one set during upload; no extra password is required for the shared link.`);
 
-      setSharePassword('');
       setShareExpiry(0);
       setSharingId(null);
     } catch (err) {
@@ -175,7 +172,6 @@ export default function FileList() {
                 <button
                   onClick={() => {
                     setSharingId(sharingId === file._id ? null : file._id);
-                    setSharePassword('');
                   }}
                   className="btn-small"
                   disabled={sharingId !== null && sharingId !== file._id}
@@ -193,16 +189,6 @@ export default function FileList() {
 
               {sharingId === file._id && (
                 <div className="share-form">
-                  <div className="form-group">
-                    <label>Password for Recipient</label>
-                    <input
-                      type="password"
-                      value={sharePassword}
-                      onChange={(e) => setSharePassword(e.target.value)}
-                      placeholder="Enter password for sharing"
-                    />
-                  </div>
-
                   <div className="form-group">
                     <label>Expiration (hours, 0 = never)</label>
                     <input

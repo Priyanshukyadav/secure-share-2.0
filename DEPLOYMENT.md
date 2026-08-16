@@ -1,4 +1,4 @@
-# 🚀 Deployment Guide
+#  Deployment Guide
 
 Complete guide to deploy the End-to-End Encrypted File Sharing System to production.
 
@@ -9,13 +9,13 @@ Complete guide to deploy the End-to-End Encrypted File Sharing System to product
 - Credit card for cloud services (most have free tier)
 - Node.js 18+ (for local testing)
 
-## 🔗 Services Used
+##  Services Used
 
 | Component | Service       | Free Tier | Cost        |
 | --------- | ------------- | --------- | ----------- |
 | Database  | MongoDB Atlas | 512MB     | $0-57/month |
 | Backend   | Render        | $7/month  | $7-50/month |
-| Frontend  | Vercel        | ∞         | $20+/month  |
+| Frontend  | Vercel        |          | $20+/month  |
 | Domain    | Namecheap     | -         | $3-10/year  |
 
 **Total Estimated Cost: $10-60/month**
@@ -103,7 +103,7 @@ openssl rand -base64 32
 
 1. Go to [render.com](https://render.com)
 2. Sign up with GitHub
-3. Click "New +" → "Web Service"
+3. Click "New +"  "Web Service"
 4. Connect your GitHub repository
 5. Configure:
    - **Name**: `e2e-backend`
@@ -175,7 +175,7 @@ openssl rand -base64 32
 
 1. Go to [vercel.com](https://vercel.com)
 2. Sign up with GitHub
-3. Click "Add New" → "Project"
+3. Click "Add New"  "Project"
 4. Select your repository
 5. Configure:
    - **Root Directory**: `frontend`
@@ -189,7 +189,7 @@ openssl rand -base64 32
    ```
 
 7. Click "Deploy"
-8. Your frontend is live! 🎉
+8. Your frontend is live! 
 9. Copy your frontend URL: `https://e2e-file-sharing.vercel.app`
 
 ### Option B: Deploy on Netlify
@@ -297,12 +297,12 @@ curl -X POST https://your-backend.com/api/auth/register \
 **Render:**
 
 - View in Render dashboard
-- Click Web Service → Logs
+- Click Web Service  Logs
 
 **Vercel:**
 
 - View in Vercel dashboard
-- Click Deployments → Logs
+- Click Deployments  Logs
 
 ---
 
@@ -327,13 +327,13 @@ certbot certonly --standalone -d your-domain.com
 
 ### Environment Variables
 
-✅ DO:
+ DO:
 
 - Store in cloud provider's secret manager
 - Rotate JWT_SECRET periodically
 - Use strong MongoDB password
 
-❌ DON'T:
+ DON'T:
 
 - Commit .env files to GitHub
 - Use same credentials across environments
@@ -510,7 +510,7 @@ mongorestore --uri "mongodb+srv://..." ./backup
 
 ## Security Considerations
 
-🔒 **Always Remember:**
+ **Always Remember:**
 
 - HTTPS only in production
 - Never log sensitive data
@@ -521,7 +521,7 @@ mongorestore --uri "mongodb+srv://..." ./backup
 
 ---
 
-**🎉 Congratulations!** Your E2E encrypted file sharing system is now live!
+** Congratulations!** Your E2E encrypted file sharing system is now live!
 
 For production-grade usage, consider:
 
@@ -534,3 +534,10 @@ For production-grade usage, consider:
 ---
 
 Last Updated: April 2026
+
+
+
+
+
+
+

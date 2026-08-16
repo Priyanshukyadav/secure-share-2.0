@@ -8,13 +8,22 @@ import { generateToken } from '../utils/jwt.js';
  */
 export const register = async (req, res, next) => {
   try {
-    const { name, email, password, confirmPassword } = req.body;
+    const nameValue = typeof req.body.name === 'string' ? req.body.name.trim() : '';
+    const emailValue = typeof req.body.email === 'string' ? req.body.email.trim().toLowerCase() : '';
+    const { password, confirmPassword } = req.body;
 
     // Validation
-    if (!name || !email || !password || !confirmPassword) {
+    if (!nameValue || !emailValue || !password || !confirmPassword) {
       return res.status(400).json({
         success: false,
         message: 'Please provide all required fields'
+      });
+    }
+
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(emailValue)) {
+      return res.status(400).json({
+        success: false,
+        message: 'Please enter a valid email address'
       });
     }
 
@@ -33,7 +42,7 @@ export const register = async (req, res, next) => {
     }
 
     // Check if user exists
-    const existingUser = await User.findOne({ email });
+    const existingUser = await User.findOne({ email: emailValue });
     if (existingUser) {
       return res.status(400).json({
         success: false,
@@ -46,8 +55,8 @@ export const register = async (req, res, next) => {
 
     // Create user
     const user = await User.create({
-      name,
-      email,
+      name: nameValue,
+      email: emailValue,
       password: hashedPassword
     });
 
@@ -75,10 +84,11 @@ export const register = async (req, res, next) => {
  */
 export const login = async (req, res, next) => {
   try {
-    const { email, password } = req.body;
+    const emailValue = typeof req.body.email === 'string' ? req.body.email.trim().toLowerCase() : '';
+    const { password } = req.body;
 
     // Validation
-    if (!email || !password) {
+    if (!emailValue || !password) {
       return res.status(400).json({
         success: false,
         message: 'Please provide email and password'
@@ -86,7 +96,7 @@ export const login = async (req, res, next) => {
     }
 
     // Find user and include password field
-    const user = await User.findOne({ email }).select('+password');
+    const user = await User.findOne({ email: emailValue }).select('+password');
     if (!user) {
       return res.status(401).json({
         success: false,

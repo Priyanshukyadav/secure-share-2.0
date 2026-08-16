@@ -1,8 +1,8 @@
-# 🔐 End-to-End Encrypted File Sharing System - Backend
+#  End-to-End Encrypted File Sharing System - Backend
 
 A production-ready Node.js + Express backend for secure file sharing with **client-side AES-256-GCM encryption**. The server NEVER has access to plaintext files or encryption keys.
 
-## ✨ Key Features
+##  Key Features
 
 - **AES-256-GCM Encryption**: Files encrypted client-side before upload
 - **PBKDF2 Key Derivation**: Secure password-based key derivation (100,000 iterations)
@@ -13,13 +13,13 @@ A production-ready Node.js + Express backend for secure file sharing with **clie
 - **File Expiration**: Auto-delete expired shared files
 - **Comprehensive Logging**: Detailed encryption/decryption logs
 
-## 📋 Requirements
+##  Requirements
 
 - Node.js 18+
 - MongoDB Atlas account
 - npm or yarn
 
-## 🚀 Installation
+##  Installation
 
 ### 1. Clone and Install Dependencies
 
@@ -68,7 +68,7 @@ npm start
 
 Server runs at `http://localhost:5000`
 
-## 🔐 Encryption Architecture
+##  Encryption Architecture
 
 ### Upload Flow
 
@@ -104,7 +104,7 @@ Server runs at `http://localhost:5000`
 6. Recipient: Decrypt file with derived key
 ```
 
-## 📡 API Endpoints
+##  API Endpoints
 
 ### Authentication
 
@@ -168,7 +168,7 @@ Server runs at `http://localhost:5000`
 
 - Returns: Encrypted file binary + headers (IV, authTag, shareSalt)
 
-## 🔒 Security Features
+##  Security Features
 
 ### Password Hashing
 
@@ -200,7 +200,7 @@ Server runs at `http://localhost:5000`
 - Upload endpoints: 50 uploads per hour
 - API endpoints: 100 requests per 15 minutes
 
-## 📊 Database Schema
+##  Database Schema
 
 ### User Collection
 
@@ -239,7 +239,7 @@ Server runs at `http://localhost:5000`
 }
 ```
 
-## 🚀 Deployment
+##  Deployment
 
 ### Deploy on Render
 
@@ -270,7 +270,7 @@ Server runs at `http://localhost:5000`
 4. Set environment variables in `.env`
 5. Use PM2 for process management
 
-## 🧪 Testing
+##  Testing
 
 ### Test Upload & Download
 
@@ -308,18 +308,18 @@ curl -X GET http://localhost:5000/api/files \
 4. Open link in new tab/incognito
 5. Enter password to decrypt
 
-## 📝 Logging
+##  Logging
 
 All encryption/decryption operations are logged:
 
 ```
-✅ File uploaded successfully
-✅ File encrypted successfully with AES-256-GCM
-✅ File decrypted successfully with AES-256-GCM
-❌ Encryption error: ...
+ File uploaded successfully
+ File encrypted successfully with AES-256-GCM
+ File decrypted successfully with AES-256-GCM
+ Encryption error: ...
 ```
 
-## 🔧 Troubleshooting
+##  Troubleshooting
 
 ### MongoDB Connection Error
 
@@ -339,52 +339,54 @@ All encryption/decryption operations are logged:
 - Check if file was tampered
 - Clear browser cache and try again
 
-## 📚 Architecture Overview
+##  Architecture Overview
 
 ```
 Backend
-├── src/
-│   ├── config/
-│   │   └── database.js (MongoDB connection)
-│   ├── models/
-│   │   ├── User.js
-│   │   └── File.js
-│   ├── controllers/
-│   │   ├── authController.js
-│   │   └── fileController.js
-│   ├── routes/
-│   │   ├── auth.js
-│   │   └── files.js
-│   ├── middleware/
-│   │   ├── auth.js (JWT validation)
-│   │   ├── errorHandler.js
-│   │   └── rateLimiter.js
-│   ├── utils/
-│   │   ├── jwt.js
-│   │   ├── bcrypt.js
-│   │   └── crypto.js (token generation)
-│   └── server.js (main entry point)
-├── uploads/ (encrypted files storage)
-├── package.json
-└── .env
+ src/
+    config/
+       database.js (MongoDB connection)
+    models/
+       User.js
+       File.js
+    controllers/
+       authController.js
+       fileController.js
+    routes/
+       auth.js
+       files.js
+    middleware/
+       auth.js (JWT validation)
+       errorHandler.js
+       rateLimiter.js
+    utils/
+       jwt.js
+       bcrypt.js
+       crypto.js (token generation)
+    server.js (main entry point)
+ uploads/ (encrypted files storage)
+ package.json
+ .env
 ```
 
-## 🎯 Security Best Practices
+##  Security Best Practices
 
-✅ HTTPS only in production
-✅ Never log sensitive data
-✅ Use strong JWT secrets
-✅ Validate all inputs
-✅ Rate limit authentication endpoints
-✅ Use CORS properly
-✅ Store keys in sessionStorage (not localStorage)
-✅ Implement CSRF protection on frontend
-✅ Regular security audits
+ HTTPS only in production
+ Never log sensitive data
+ Use strong JWT secrets
+ Validate all inputs
+ Rate limit authentication endpoints
+ Use CORS properly
+ Store keys in sessionStorage (not localStorage)
+ Implement CSRF protection on frontend
+ Regular security audits
 
-## 📄 License
+##  License
 
 MIT
 
 ---
 
-**⚠️ IMPORTANT**: Change `JWT_SECRET` in production! Use a strong, random value.
+** IMPORTANT**: Change `JWT_SECRET` in production! Use a strong, random value.
+
+

@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 # End-to-End Encrypted File Sharing System
 
 A **production-ready MERN stack** application for secure file sharing with **client-side AES-256-GCM encryption**. The server never has access to plaintext files or encryption keys.
@@ -17,54 +16,30 @@ A **production-ready MERN stack** application for secure file sharing with **cli
 - **MongoDB Integration**: Secure metadata storage
 
 ## Architecture
-=======
-# 🔐 End-to-End Encrypted File Sharing System
-
-A **production-ready MERN stack** application for secure file sharing with **client-side AES-256-GCM encryption**. The server never has access to plaintext files or encryption keys.
-
-## ✨ Features
-
-- ✅ **AES-256-GCM Encryption**: Military-grade file encryption
-- ✅ **PBKDF2 Key Derivation**: Secure password-based key derivation (100,000 iterations)
-- ✅ **Client-Side Encryption**: Files encrypted before upload
-- ✅ **JWT Authentication**: Secure token-based auth
-- ✅ **Password-Protected Sharing**: Share files with passwords
-- ✅ **File Expiration**: Auto-delete expired shares
-- ✅ **Rate Limiting**: Protection against abuse
-- ✅ **Responsive UI**: Works on all devices
-- ✅ **Comprehensive Logging**: See encryption process in console
-- ✅ **MongoDB Integration**: Secure metadata storage
-
-## 🏗️ Architecture
->>>>>>> c8d095a1ca0383f6c4c6e0d18929a43270b44e56
 
 ```
-┌─────────────────────────────────────────────────────────────┐
-│                      React Frontend                         │
-│  (AES-256-GCM Encryption / PBKDF2 Key Derivation)          │
-│              Web Crypto API - SessionStorage               │
-└────────────────────┬────────────────────────────────────────┘
-                     │ HTTPS
-                     │ (Encrypted Data + IV + AuthTag)
-                     ▼
-┌─────────────────────────────────────────────────────────────┐
-│                   Express Backend                           │
-│              (Never Decrypts, Only Stores)                 │
-│    JWT Auth / Rate Limiting / CORS / Error Handling       │
-└────────────────────┬────────────────────────────────────────┘
-                     │
-                     ▼
-┌─────────────────────────────────────────────────────────────┐
-│              MongoDB Atlas + File Storage                   │
-│         (Encrypted Files + Metadata Only)                  │
-└─────────────────────────────────────────────────────────────┘
+
+                      React Frontend                         
+  (AES-256-GCM Encryption / PBKDF2 Key Derivation)          
+              Web Crypto API - SessionStorage               
+
+                      HTTPS
+                      (Encrypted Data + IV + AuthTag)
+                     
+
+                   Express Backend                           
+              (Never Decrypts, Only Stores)                 
+    JWT Auth / Rate Limiting / CORS / Error Handling       
+
+                     
+                     
+
+              MongoDB Atlas + File Storage                   
+         (Encrypted Files + Metadata Only)                  
+
 ```
 
-<<<<<<< HEAD
 ## Security Model
-=======
-## 🔐 Security Model
->>>>>>> c8d095a1ca0383f6c4c6e0d18929a43270b44e56
 
 ### Encryption Guarantees
 
@@ -87,11 +62,7 @@ A **production-ready MERN stack** application for secure file sharing with **cli
 | Brute Force (Password) | PBKDF2 with 100,000 iterations  |
 | Brute Force (Auth)     | Rate limiting                   |
 
-<<<<<<< HEAD
 ## Tech Stack
-=======
-## 📋 Tech Stack
->>>>>>> c8d095a1ca0383f6c4c6e0d18929a43270b44e56
 
 ### Frontend
 
@@ -117,11 +88,7 @@ A **production-ready MERN stack** application for secure file sharing with **cli
 - **Vercel/Netlify**: Frontend hosting
 - **Render/Railway/AWS**: Backend hosting
 
-<<<<<<< HEAD
 ## Quick Start
-=======
-## 🚀 Quick Start
->>>>>>> c8d095a1ca0383f6c4c6e0d18929a43270b44e56
 
 ### Prerequisites
 
@@ -195,81 +162,73 @@ Open browser and go to: `http://localhost:5173`
 3. Download to verify decryption
 4. Share with password
 
-<<<<<<< HEAD
 ## Project Structure
-=======
-## 📊 Project Structure
->>>>>>> c8d095a1ca0383f6c4c6e0d18929a43270b44e56
 
 ```
 e:\minorbanaobikaro/
-├── backend/
-│   ├── src/
-│   │   ├── config/
-│   │   │   └── database.js
-│   │   ├── models/
-│   │   │   ├── User.js
-│   │   │   └── File.js
-│   │   ├── controllers/
-│   │   │   ├── authController.js
-│   │   │   └── fileController.js
-│   │   ├── routes/
-│   │   │   ├── auth.js
-│   │   │   └── files.js
-│   │   ├── middleware/
-│   │   │   ├── auth.js
-│   │   │   ├── errorHandler.js
-│   │   │   └── rateLimiter.js
-│   │   ├── utils/
-│   │   │   ├── jwt.js
-│   │   │   ├── bcrypt.js
-│   │   │   └── crypto.js
-│   │   └── server.js
-│   ├── uploads/
-│   ├── package.json
-│   ├── .env.example
-│   ├── README.md
-│   └── .gitignore
-│
-├── frontend/
-│   ├── src/
-│   │   ├── components/
-│   │   │   ├── FileUpload.jsx
-│   │   │   ├── FileList.jsx
-│   │   │   └── UserProfile.jsx
-│   │   ├── pages/
-│   │   │   ├── Register.jsx
-│   │   │   ├── Login.jsx
-│   │   │   ├── Dashboard.jsx
-│   │   │   └── SharedFile.jsx
-│   │   ├── services/
-│   │   │   └── api.js
-│   │   ├── utils/
-│   │   │   ├── encryption.js
-│   │   │   └── storage.js
-│   │   ├── styles/
-│   │   │   ├── Auth.css
-│   │   │   ├── Dashboard.css
-│   │   │   ├── Components.css
-│   │   │   └── SharedFile.css
-│   │   ├── App.jsx
-│   │   ├── main.jsx
-│   │   └── index.css
-│   ├── index.html
-│   ├── vite.config.js
-│   ├── package.json
-│   ├── .env.example
-│   ├── README.md
-│   └── .gitignore
-│
-└── README.md (this file)
+ backend/
+    src/
+       config/
+          database.js
+       models/
+          User.js
+          File.js
+       controllers/
+          authController.js
+          fileController.js
+       routes/
+          auth.js
+          files.js
+       middleware/
+          auth.js
+          errorHandler.js
+          rateLimiter.js
+       utils/
+          jwt.js
+          bcrypt.js
+          crypto.js
+       server.js
+    uploads/
+    package.json
+    .env.example
+    README.md
+    .gitignore
+
+ frontend/
+    src/
+       components/
+          FileUpload.jsx
+          FileList.jsx
+          UserProfile.jsx
+       pages/
+          Register.jsx
+          Login.jsx
+          Dashboard.jsx
+          SharedFile.jsx
+       services/
+          api.js
+       utils/
+          encryption.js
+          storage.js
+       styles/
+          Auth.css
+          Dashboard.css
+          Components.css
+          SharedFile.css
+       App.jsx
+       main.jsx
+       index.css
+    index.html
+    vite.config.js
+    package.json
+    .env.example
+    README.md
+    .gitignore
+
+ README.md (this file)
 ```
 
-<<<<<<< HEAD
 ## Encryption Flow
-=======
-## 🔐 Encryption Flow
->>>>>>> c8d095a1ca0383f6c4c6e0d18929a43270b44e56
 
 ### File Upload
 
@@ -310,11 +269,7 @@ e:\minorbanaobikaro/
 5. If wrong password: Decryption fails
 ```
 
-<<<<<<< HEAD
 ## API Documentation
-=======
-## 📡 API Documentation
->>>>>>> c8d095a1ca0383f6c4c6e0d18929a43270b44e56
 
 See [backend/README.md](backend/README.md) for complete API documentation.
 
@@ -333,11 +288,7 @@ GET    /api/files/shared/:token    - Get shared file info
 GET    /api/files/shared/:token/download - Download shared file
 ```
 
-<<<<<<< HEAD
 ## Production Deployment
-=======
-## 🚀 Production Deployment
->>>>>>> c8d095a1ca0383f6c4c6e0d18929a43270b44e56
 
 ### Backend Deployment
 
@@ -413,11 +364,7 @@ VITE_API_BASE_URL=https://your-backend-api.com/api
 # Use Vercel or Netlify instead
 ```
 
-<<<<<<< HEAD
 ## Testing
-=======
-## 🧪 Testing
->>>>>>> c8d095a1ca0383f6c4c6e0d18929a43270b44e56
 
 ### Manual Testing Checklist
 
@@ -449,19 +396,11 @@ npm test
 1. Upload a file
 2. Open DevTools (F12)
 3. Check Console for:
-<<<<<<< HEAD
    - File encrypted successfully
    - Key stored in sessionStorage
 4. Download file
 5. Check Console for:
    - File decrypted successfully
-=======
-   - ✅ File encrypted successfully
-   - ✅ Key stored in sessionStorage
-4. Download file
-5. Check Console for:
-   - ✅ File decrypted successfully
->>>>>>> c8d095a1ca0383f6c4c6e0d18929a43270b44e56
 
 ### Test File Tampering
 
@@ -470,7 +409,6 @@ npm test
 3. Try to download
 4. Should get error: "File integrity compromised"
 
-<<<<<<< HEAD
 ## Important Security Notes
 
 ### DO
@@ -495,32 +433,6 @@ npm test
 - Don't skip input validation
 
 ## Troubleshooting
-=======
-## ⚠️ Important Security Notes
-
-### ✅ DO
-
-- ✅ Use HTTPS in production
-- ✅ Keep JWT_SECRET strong and random
-- ✅ Store sensitive env vars in `.env` files
-- ✅ Use rate limiting
-- ✅ Validate all inputs
-- ✅ Monitor error logs
-- ✅ Update dependencies regularly
-- ✅ Use strong passwords
-
-### ❌ DON'T
-
-- ❌ Don't commit `.env` files
-- ❌ Don't expose JWT_SECRET in code
-- ❌ Don't store keys in localStorage
-- ❌ Don't trust client-side only
-- ❌ Don't use HTTP in production
-- ❌ Don't log sensitive data
-- ❌ Don't skip input validation
-
-## 🐛 Troubleshooting
->>>>>>> c8d095a1ca0383f6c4c6e0d18929a43270b44e56
 
 ### Backend Won't Start
 
@@ -565,20 +477,12 @@ curl http://localhost:5000/health
 # No extensions to interfere
 ```
 
-<<<<<<< HEAD
 ## Documentation
-=======
-## 📚 Documentation
->>>>>>> c8d095a1ca0383f6c4c6e0d18929a43270b44e56
 
 - [Backend README](backend/README.md) - API, database, deployment
 - [Frontend README](frontend/README.md) - UI, encryption, components
 
-<<<<<<< HEAD
 ## Contributing
-=======
-## 🤝 Contributing
->>>>>>> c8d095a1ca0383f6c4c6e0d18929a43270b44e56
 
 1. Fork the repository
 2. Create feature branch (`git checkout -b feature/amazing-feature`)
@@ -586,19 +490,11 @@ curl http://localhost:5000/health
 4. Push to branch (`git push origin feature/amazing-feature`)
 5. Open Pull Request
 
-<<<<<<< HEAD
 ## License
 
 MIT License - See LICENSE file for details
 
 ## Legal Disclaimer
-=======
-## 📝 License
-
-MIT License - See LICENSE file for details
-
-## ⚖️ Legal Disclaimer
->>>>>>> c8d095a1ca0383f6c4c6e0d18929a43270b44e56
 
 This software is provided "as-is". Users are responsible for:
 
@@ -607,7 +503,7 @@ This software is provided "as-is". Users are responsible for:
 - Regular backups
 - Testing in their environment
 
-## 🔗 Useful Links
+##  Useful Links
 
 - [Web Crypto API](https://developer.mozilla.org/en-US/docs/Web/API/Web_Crypto_API)
 - [MongoDB Atlas](https://www.mongodb.com/cloud/atlas)
@@ -616,7 +512,7 @@ This software is provided "as-is". Users are responsible for:
 - [Express.js](https://expressjs.com)
 - [React](https://react.dev)
 
-## 💬 Support
+##  Support
 
 For issues or questions:
 
@@ -625,24 +521,24 @@ For issues or questions:
 3. Check backend error logs
 4. Search existing issues
 
-## 🎉 Features Implemented
+##  Features Implemented
 
-- ✅ User authentication (Register/Login)
-- ✅ File upload with client-side encryption
-- ✅ File download with client-side decryption
-- ✅ File sharing with password protection
-- ✅ Encrypted file storage on server
-- ✅ JWT-based authentication
-- ✅ Rate limiting
-- ✅ CORS support
-- ✅ Error handling
-- ✅ Responsive UI
-- ✅ SessionStorage key management
-- ✅ File expiration for shared links
-- ✅ Comprehensive logging
-- ✅ Production-ready code
+-  User authentication (Register/Login)
+-  File upload with client-side encryption
+-  File download with client-side decryption
+-  File sharing with password protection
+-  Encrypted file storage on server
+-  JWT-based authentication
+-  Rate limiting
+-  CORS support
+-  Error handling
+-  Responsive UI
+-  SessionStorage key management
+-  File expiration for shared links
+-  Comprehensive logging
+-  Production-ready code
 
-## 🚀 Future Enhancements
+##  Future Enhancements
 
 - [ ] 2FA authentication
 - [ ] File versioning
@@ -657,7 +553,9 @@ For issues or questions:
 
 ---
 
-**🔐 Built with Security First**
+** Built with Security First**
 
 Last Updated: April 2026
 Version: 1.0.0
+
+

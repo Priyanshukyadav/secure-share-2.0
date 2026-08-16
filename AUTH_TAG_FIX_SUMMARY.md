@@ -7,7 +7,7 @@ The shared file download was failing with "Authentication tag verification faile
 - **Upload**: File encrypted with a **random AES key**
 - **Share**: Frontend generated a **NEW salt** for PBKDF2
 - **Shared Download**: Frontend derived key from password + NEW salt, but file was encrypted with **random key**
-- **Result**: Key mismatch → auth tag verification fails
+- **Result**: Key mismatch  auth tag verification fails
 
 ## Root Cause
 
@@ -23,7 +23,7 @@ The encryption key used during upload didn't match the key derived during shared
 
 Added optional password protection during upload:
 
-- Checkbox: "🔐 Protect with password (for sharing)"
+- Checkbox: " Protect with password (for sharing)"
 - If password provided:
   - Generate salt during upload
   - Derive key from password + salt using PBKDF2
@@ -150,39 +150,39 @@ Added CSS for password input section:
 
 ```
 Upload (Random Key)
-  ↓
+  
 Share (Generate NEW Salt)
-  ↓
+  
 Shared Download (Derive Key from NEW Salt)
-  ↗ FAIL: Key mismatch! File encrypted with random key
+   FAIL: Key mismatch! File encrypted with random key
 ```
 
 ### New Flow (Fixed)
 
 ```
 Upload with Password (Derive Key from Salt + Password)
-  ↓ (Store Salt)
+   (Store Salt)
 Share (Use Same Salt from Upload)
-  ↓
+  
 Shared Download (Derive Key from Same Salt + Password)
-  ✓ SUCCESS: Key matches! Decryption works
+   SUCCESS: Key matches! Decryption works
 ```
 
 ## User Experience Changes
 
 ### Upload
 
-- **Before**: Simple file select → encrypt with random key → upload
+- **Before**: Simple file select  encrypt with random key  upload
 - **After**:
   - Select file
-  - Option: "🔐 Protect with password (for sharing)"
-  - If selected: Enter password twice → encrypt with password-derived key → upload
+  - Option: " Protect with password (for sharing)"
+  - If selected: Enter password twice  encrypt with password-derived key  upload
   - If not selected: Encrypt with random key (owner-only access)
 
 ### Sharing
 
-- **Before**: Click Share → enter password → generate salt → create link
-- **After**: Click Share → creates link using password from upload
+- **Before**: Click Share  enter password  generate salt  create link
+- **After**: Click Share  creates link using password from upload
 - Files uploaded without password cannot be shared (error message shows reason)
 
 ### Downloading Shared Files
@@ -201,7 +201,7 @@ Shared Download (Derive Key from Same Salt + Password)
 3. Share file
 4. Download with password "TestPass123"
 5. Key derived from (password, SAME salt)
-6. ✅ Decryption succeeds
+6.  Decryption succeeds
 ```
 
 ### Test 2: Wrong Password
@@ -211,7 +211,7 @@ Shared Download (Derive Key from Same Salt + Password)
 2. Share file
 3. Download with password "WrongPass456"
 4. Key derived incorrectly
-5. ❌ Auth tag verification fails (expected)
+5.  Auth tag verification fails (expected)
 ```
 
 ### Test 3: Random Key Upload (Owner-Only)
@@ -220,8 +220,8 @@ Shared Download (Derive Key from Same Salt + Password)
 1. Upload file WITHOUT password protection
 2. Owner can download (key from sessionStorage)
 3. Click Share
-4. ❌ Error: "File must be uploaded with password protection to share"
-5. ✅ Correct behavior (can't share files with random keys)
+4.  Error: "File must be uploaded with password protection to share"
+5.  Correct behavior (can't share files with random keys)
 ```
 
 ## API Changes Summary
@@ -245,20 +245,20 @@ Shared Download (Derive Key from Same Salt + Password)
 
 ## Security Considerations
 
-### ✅ Maintained
+###  Maintained
 
 - AES-256-GCM encryption
 - PBKDF2 with 100,000 iterations
 - Client-side encryption
 - Server never sees plaintext or original key
 
-### ✅ Improved
+###  Improved
 
 - Consistent key derivation (same salt for upload and download)
 - Clear user indication that file is password-protected
 - Can't accidentally share files with random keys
 
-### ⚠️ Note
+###  Note
 
 - Password is transmitted over HTTPS (use HTTPS in production)
 - Password is same for both owner and shared access (users must manage password sharing separately)
@@ -268,9 +268,9 @@ Shared Download (Derive Key from Same Salt + Password)
 
 ### Breaking Change
 
-- ✅ Old files uploaded without password cannot be shared with new code
-- ✅ Frontend won't let users share password-less files
-- ✅ This is by design - requires re-upload with password for sharing
+-  Old files uploaded without password cannot be shared with new code
+-  Frontend won't let users share password-less files
+-  This is by design - requires re-upload with password for sharing
 
 ### Migration
 
@@ -281,12 +281,12 @@ Users with existing files must:
 
 ## Testing Checklist
 
-- [ ] Upload file without password → encrypt with random key → owner download works
-- [ ] Upload file with password → encrypt with password-derived key
-- [ ] Share password-protected file → link works
-- [ ] Download shared file with CORRECT password → ✅ Success
-- [ ] Download shared file with WRONG password → ❌ Auth tag fails (expected)
-- [ ] Try to share file uploaded without password → ❌ Error message shown
+- [ ] Upload file without password  encrypt with random key  owner download works
+- [ ] Upload file with password  encrypt with password-derived key
+- [ ] Share password-protected file  link works
+- [ ] Download shared file with CORRECT password   Success
+- [ ] Download shared file with WRONG password   Auth tag fails (expected)
+- [ ] Try to share file uploaded without password   Error message shown
 - [ ] Check CORS headers are sent correctly
 - [ ] Browser console shows no errors during encryption/decryption
 - [ ] Downloaded file integrity verified (not corrupted)
@@ -303,3 +303,10 @@ Users with existing files must:
 2. Test flow with new password-protected upload
 3. Verify shared download decryption works
 4. Check error handling for non-password-protected files
+
+
+
+
+
+
+
