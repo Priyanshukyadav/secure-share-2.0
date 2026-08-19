@@ -12,13 +12,18 @@ dotenv.config();
 const app = express();
 const PORT = process.env.PORT || 5000;
 
-const configuredOrigins = (process.env.CLIENT_URL || 'http://localhost:5173')
-  .split(',')
+const configuredOrigins = [
+  ...(process.env.CLIENT_URL || '').split(','),
+  'https://secure-share-2-0.vercel.app',
+  'http://localhost:5173',
+  'http://localhost:3000'
+]
   .map((origin) => origin.trim().replace(/\/$/, ''))
-  .filter(Boolean);
+  .filter(Boolean)
+  .filter((origin, index, origins) => origins.indexOf(origin) === index);
 
 if (process.env.NODE_ENV !== 'production') {
-  configuredOrigins.push('http://localhost:5173', 'http://127.0.0.1:5173');
+  configuredOrigins.push('http://127.0.0.1:5173');
 }
 
 // Middleware
@@ -30,7 +35,7 @@ app.use(cors({
     return callback(new Error('Origin is not allowed by CORS'));
   },
   credentials: true,
-  methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH'],
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization'],
   exposedHeaders: ['x-iv', 'x-auth-tag', 'x-share-salt', 'x-file-size', 'Content-Disposition']
 }));
