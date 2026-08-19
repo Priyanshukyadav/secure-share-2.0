@@ -1,4 +1,4 @@
-#  Deployment Guide
+# Deployment Guide
 
 Complete guide to deploy the End-to-End Encrypted File Sharing System to production.
 
@@ -9,13 +9,13 @@ Complete guide to deploy the End-to-End Encrypted File Sharing System to product
 - Credit card for cloud services (most have free tier)
 - Node.js 18+ (for local testing)
 
-##  Services Used
+## Services Used
 
 | Component | Service       | Free Tier | Cost        |
 | --------- | ------------- | --------- | ----------- |
 | Database  | MongoDB Atlas | 512MB     | $0-57/month |
 | Backend   | Render        | $7/month  | $7-50/month |
-| Frontend  | Vercel        |          | $20+/month  |
+| Frontend  | Vercel        |           | $20+/month  |
 | Domain    | Namecheap     | -         | $3-10/year  |
 
 **Total Estimated Cost: $10-60/month**
@@ -64,15 +64,18 @@ mongodb+srv://user:password@cluster0.abcde.mongodb.net/e2e-file-sharing?retryWri
 
 ### 1.4 Prepare Environment Variables
 
+Encrypted file bytes are stored in MongoDB GridFS. This is required because Render's
+local filesystem is ephemeral and files stored under `backend/uploads` would be lost
+after a restart or redeploy.
+
 **For Backend:**
 
 ```env
-PORT=5000
 NODE_ENV=production
 MONGO_URI=mongodb+srv://...
-JWT_SECRET=generate-random-key-here
+JWT_SECRET=generate-a-random-secret-at-least-32-characters-long
 JWT_EXPIRE=7d
-BCRYPT_ROUNDS=10
+BCRYPT_ROUNDS=12
 CLIENT_URL=https://your-frontend-domain.com
 MAX_FILE_SIZE=104857600
 ```
@@ -103,13 +106,14 @@ openssl rand -base64 32
 
 1. Go to [render.com](https://render.com)
 2. Sign up with GitHub
-3. Click "New +"  "Web Service"
+3. Click "New +" "Web Service"
 4. Connect your GitHub repository
 5. Configure:
    - **Name**: `e2e-backend`
    - **Environment**: `Node`
-   - **Build Command**: `npm install`
-   - **Start Command**: `cd backend && npm start`
+   - **Root Directory**: `backend`
+   - **Build Command**: `npm ci`
+   - **Start Command**: `npm start`
    - **Plan**: `Free` (for testing)
 
 6. Add Environment Variables:
@@ -175,7 +179,7 @@ openssl rand -base64 32
 
 1. Go to [vercel.com](https://vercel.com)
 2. Sign up with GitHub
-3. Click "Add New"  "Project"
+3. Click "Add New" "Project"
 4. Select your repository
 5. Configure:
    - **Root Directory**: `frontend`
@@ -189,8 +193,15 @@ openssl rand -base64 32
    ```
 
 7. Click "Deploy"
-8. Your frontend is live! 
+8. Your frontend is live!
 9. Copy your frontend URL: `https://e2e-file-sharing.vercel.app`
+
+The included `frontend/vercel.json` rewrites direct routes such as
+`/shared/<token>` to the React app, preventing Vercel 404 errors on refresh.
+
+For owner downloads from another browser or machine, upload files with a password.
+The password is never sent to the backend; it is used locally to derive the key.
+Uploads without a password keep their key only in the current browser session.
 
 ### Option B: Deploy on Netlify
 
@@ -297,12 +308,12 @@ curl -X POST https://your-backend.com/api/auth/register \
 **Render:**
 
 - View in Render dashboard
-- Click Web Service  Logs
+- Click Web Service Logs
 
 **Vercel:**
 
 - View in Vercel dashboard
-- Click Deployments  Logs
+- Click Deployments Logs
 
 ---
 
@@ -327,13 +338,13 @@ certbot certonly --standalone -d your-domain.com
 
 ### Environment Variables
 
- DO:
+DO:
 
 - Store in cloud provider's secret manager
 - Rotate JWT_SECRET periodically
 - Use strong MongoDB password
 
- DON'T:
+DON'T:
 
 - Commit .env files to GitHub
 - Use same credentials across environments
@@ -510,7 +521,7 @@ mongorestore --uri "mongodb+srv://..." ./backup
 
 ## Security Considerations
 
- **Always Remember:**
+**Always Remember:**
 
 - HTTPS only in production
 - Never log sensitive data
@@ -534,10 +545,3 @@ For production-grade usage, consider:
 ---
 
 Last Updated: April 2026
-
-
-
-
-
-
-

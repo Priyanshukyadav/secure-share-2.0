@@ -66,7 +66,6 @@ const fileSchema = new mongoose.Schema(
 
 // Index for efficient queries
 fileSchema.index({ owner: 1, createdAt: -1 });
-fileSchema.index({ shareToken: 1 });
 fileSchema.index({ expiresAt: 1 }, { expireAfterSeconds: 0 });
 
 export default mongoose.model('File', fileSchema);

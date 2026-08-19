@@ -25,7 +25,10 @@ export default function Login() {
     setLoading(true);
 
     try {
-      const response = await authAPI.login(formData.email, formData.password);
+      const response = await authAPI.login(
+        formData.email.trim().toLowerCase(),
+        formData.password
+      );
       setAuthToken(response.data.token);
       console.log('✅ Login successful');
       navigate('/dashboard');

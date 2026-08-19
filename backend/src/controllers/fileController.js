@@ -1,17 +1,7 @@
-import fs from 'fs';
-import path from 'path';
-import { fileURLToPath } from 'url';
+import { randomUUID } from 'crypto';
 import File from '../models/File.js';
+import { getFileBucket } from '../config/database.js';
 import { generateShareToken, generateSalt, validateEncryptedFileMetadata } from '../utils/crypto.js';
-
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
-const uploadsDir = path.join(__dirname, '../../uploads');
-
-// Ensure uploads directory exists
-if (!fs.existsSync(uploadsDir)) {
-  fs.mkdirSync(uploadsDir, { recursive: true });
-}
 
 /**
  * Upload encrypted file
@@ -24,6 +14,8 @@ if (!fs.existsSync(uploadsDir)) {
  * - originalName: original filename
  */
 export const uploadFile = async (req, res, next) => {
+  let uploadedFilename;
+
   try {
     if (!req.file) {
       return res.status(400).json({
@@ -44,9 +36,21 @@ export const uploadFile = async (req, res, next) => {
       });
     }
 
-    // Store encrypted file
+    const filename = randomUUID();
+    uploadedFilename = filename;
+    const bucket = getFileBucket();
+    await new Promise((resolve, reject) => {
+      const uploadStream = bucket.openUploadStream(filename, {
+        contentType: 'application/octet-stream',
+        metadata: { originalName: originalName || req.file.originalname }
+      });
+      uploadStream.once('error', reject);
+      uploadStream.once('finish', resolve);
+      uploadStream.end(req.file.buffer);
+    });
+
     const fileData = {
-      filename: req.file.filename,
+      filename,
       originalName: originalName || req.file.originalname,
       size: req.file.size,
       mimeType: req.file.mimetype,
@@ -83,12 +87,15 @@ export const uploadFile = async (req, res, next) => {
       }
     });
   } catch (error) {
-    // Clean up uploaded file on error
-    if (req.file) {
+    if (uploadedFilename) {
       try {
-        fs.unlinkSync(req.file.path);
-      } catch (e) {
-        console.error('Error deleting file:', e);
+        const bucket = getFileBucket();
+        const storedFile = await bucket.find({ filename: uploadedFilename }).next();
+        if (storedFile) {
+          await bucket.delete(storedFile._id);
+        }
+      } catch (cleanupError) {
+        console.error('Error deleting failed upload:', cleanupError);
       }
     }
     next(error);
@@ -123,18 +130,14 @@ export const downloadFile = async (req, res, next) => {
       });
     }
 
-    const filePath = path.join(uploadsDir, file.filename);
-
-    // Check if file exists on disk
-    if (!fs.existsSync(filePath)) {
+    const bucket = getFileBucket();
+    const storedFile = await bucket.find({ filename: file.filename }).next();
+    if (!storedFile) {
       return res.status(404).json({
         success: false,
         message: 'File data not found on server'
       });
     }
-
-    // Read encrypted file
-    const encryptedData = fs.readFileSync(filePath);
 
     // Send file with encryption metadata in headers
     res.set({
@@ -152,7 +155,7 @@ export const downloadFile = async (req, res, next) => {
       iv: file.encryptionIv
     });
 
-    res.send(encryptedData);
+    bucket.openDownloadStreamByName(file.filename).on('error', next).pipe(res);
   } catch (error) {
     next(error);
   }
@@ -209,7 +212,7 @@ export const listUserFiles = async (req, res, next) => {
     const skip = (page - 1) * limit;
 
     const files = await File.find({ owner: req.userId })
-      .select('_id originalName size isPublic shareToken expiresAt createdAt')
+      .select('_id originalName size isPublic shareToken shareSalt expiresAt createdAt')
       .sort({ createdAt: -1 })
       .skip(skip)
       .limit(limit);
@@ -254,10 +257,10 @@ export const deleteFile = async (req, res, next) => {
       });
     }
 
-    // Delete file from disk
-    const filePath = path.join(uploadsDir, file.filename);
-    if (fs.existsSync(filePath)) {
-      fs.unlinkSync(filePath);
+    const bucket = getFileBucket();
+    const storedFile = await bucket.find({ filename: file.filename }).next();
+    if (storedFile) {
+      await bucket.delete(storedFile._id);
     }
 
     // Delete from database
@@ -376,18 +379,14 @@ export const downloadSharedFile = async (req, res, next) => {
       });
     }
 
-    const filePath = path.join(uploadsDir, file.filename);
-
-    // Check if file exists on disk
-    if (!fs.existsSync(filePath)) {
+    const bucket = getFileBucket();
+    const storedFile = await bucket.find({ filename: file.filename }).next();
+    if (!storedFile) {
       return res.status(404).json({
         success: false,
         message: 'File data not found on server'
       });
     }
-
-    // Read encrypted file
-    const encryptedData = fs.readFileSync(filePath);
 
     // Update access count
     file.accessCount += 1;
@@ -412,7 +411,7 @@ export const downloadSharedFile = async (req, res, next) => {
       salt: file.shareSalt
     });
 
-    res.send(encryptedData);
+    bucket.openDownloadStreamByName(file.filename).on('error', next).pipe(res);
   } catch (error) {
     next(error);
   }

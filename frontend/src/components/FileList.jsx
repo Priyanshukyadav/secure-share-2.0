@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import {
   base64ToArrayBuffer,
   decryptFile,
+  deriveKeyFromPassword,
   importKey
 } from '../utils/encryption';
 import { retrieveKey, deleteKey, hasKey } from '../utils/storage';
@@ -33,22 +34,32 @@ export default function FileList() {
   };
 
   const handleDownload = async (fileId, fileName) => {
-    if (!hasKey(fileId)) {
-      setError('Encryption key not found. The key may have been cleared.');
-      return;
-    }
-
     setDecryptingId(fileId);
 
     try {
-      // Get stored key
-      const keyData = retrieveKey(fileId);
-      if (!keyData) {
-        throw new Error('Encryption key not found');
+      let key;
+      if (hasKey(fileId)) {
+        const keyData = retrieveKey(fileId);
+        if (keyData) {
+          key = await importKey(keyData);
+        }
       }
 
-      // Import key for decryption
-      const key = await importKey(keyData);
+      const file = files.find((item) => item._id === fileId);
+      if (!key && file?.shareSalt) {
+        const password = window.prompt('Enter the file password to decrypt it:');
+        if (!password) {
+          throw new Error('A password is required to decrypt this file');
+        }
+        key = await deriveKeyFromPassword(
+          password,
+          base64ToArrayBuffer(file.shareSalt)
+        );
+      }
+
+      if (!key) {
+        throw new Error('Encryption key not found. Use a password-protected upload to download from another device.');
+      }
 
       // Download encrypted file
       const response = await fileAPI.download(fileId);

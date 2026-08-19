@@ -1,25 +1,12 @@
-import mongoose from 'mongoose';
+import { GridFSBucket } from 'mongodb';
+import { getMongoDB } from './mongo.js';
 
-export const connectDB = async () => {
-  try {
-    if (!process.env.MONGO_URI) {
-      throw new Error('MONGO_URI is missing in backend .env');
-    }
+let fileBucket;
 
-    const conn = await mongoose.connect(process.env.MONGO_URI);
-    console.log('✅ MongoDB connected:', conn.connection.host);
-    return conn;
-  } catch (error) {
-    console.error('❌ MongoDB connection error:', error.message);
-    process.exit(1);
+export const getFileBucket = () => {
+  if (!fileBucket) {
+    fileBucket = new GridFSBucket(getMongoDB(), { bucketName: 'encryptedFiles' });
   }
-};
 
-export const disconnectDB = async () => {
-  try {
-    await mongoose.disconnect();
-    console.log('✅ MongoDB disconnected');
-  } catch (error) {
-    console.error('❌ MongoDB disconnection error:', error.message);
-  }
+  return fileBucket;
 };
