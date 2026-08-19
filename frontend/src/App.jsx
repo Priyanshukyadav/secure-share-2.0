@@ -1,10 +1,11 @@
-import React, { useEffect } from 'react';
+import React, { lazy, Suspense, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { initializeAuth } from './services/api';
-import Register from './pages/Register';
-import Login from './pages/Login';
-import Dashboard from './pages/Dashboard';
-import SharedFile from './pages/SharedFile';
+
+const Register = lazy(() => import('./pages/Register'));
+const Login = lazy(() => import('./pages/Login'));
+const Dashboard = lazy(() => import('./pages/Dashboard'));
+const SharedFile = lazy(() => import('./pages/SharedFile'));
 
 function App() {
   useEffect(() => {
@@ -14,13 +15,15 @@ function App() {
 
   return (
     <Router>
-      <Routes>
-        <Route path="/register" element={<Register />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/dashboard" element={<Dashboard />} />
-        <Route path="/shared/:token" element={<SharedFile />} />
-        <Route path="/" element={<Navigate to="/dashboard" />} />
-      </Routes>
+      <Suspense fallback={<div className="loader">Loading...</div>}>
+        <Routes>
+          <Route path="/register" element={<Register />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/shared/:token" element={<SharedFile />} />
+          <Route path="/" element={<Navigate to="/dashboard" />} />
+        </Routes>
+      </Suspense>
     </Router>
   );
 }
